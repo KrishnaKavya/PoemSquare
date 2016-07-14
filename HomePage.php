@@ -1,3 +1,14 @@
+<!--The user who enters the Home page logins with a unique User ID.
+	Session variable will have the details about the user which will be carry forwarded. 
+	For Inditial implementation and Testing  user id:17 user_login is used:Krishna 
+-->
+<?php
+session_start();
+$_SESSION['ID']=17;
+$_SESSION['user_login']="Krishna";
+echo $_SESSION['ID'];
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +59,7 @@ font-size: 13pt;
 <div>
 <p>
 <br>
-Translate the poem into a PoemSquare. A <b>PoemSquare</b> is a multi-media experience you will compose from media files that you or others have
+Translate the poem into a PoemSquare. A PoemSquare is a multi-media experience you will compose from media files that you or others have
 created or found and have stored in the Remaking Poetry database.  The PoemSquare synthesizes representations of the poem<sup>'</sup>s sounds, images,
 words, and movement in a different art form. <br><br>
 
@@ -83,7 +94,7 @@ To begin, reflect on your observations from the experiments and draw some conclu
     	</li>
 </ul><br/>
 
-<a href="poem.php"><p id="link">Create a PoemSquare</p></a>
+<a href="FolderStructure.php"><p id="link">Create a PoemSquare</p></a>
 </div>
 </body>
 </html>

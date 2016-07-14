@@ -1,3 +1,14 @@
+<?php
+require_once('mysqli_connect.php'); 
+session_start();
+//Testing
+$tableName="trail4";
+
+//original
+//$tableName=$_SESSION['TableName'];
+include "display.php";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,15 +26,19 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="js/Radio.js"></script>
+	<script src="js/PoemSquareName.js"></script>
+	<script src="js/UploadValidation.js"></script>
 	<title>PoemSquare Work Space</title>
 </head>
-<body onload="disableLink()">
+<body onload="disableLink();">
+
 <!--Title-->  
 <h1 class="title">PoemSquare</h1>
+
 <!--Instructions-->
 
 <br/><p class="instructions">
-<b>Instructions:</b><br>  Select one of the four play modes: manual, slideshow, database, simulcast.  Select a tile, upload media files, and choose settings.  Add text, if you wish.  Preview.  Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click <sup>"</sup>FINISH.<sup>"</sup>  Play your creation from the PoemSquare Showcase.  For more detailed instructions, print out <sup>"</sup>PoemSquare Instructions <sup>"</sup> in <sup>"</sup>Resources.<sup>"</sup>
+<b>Instructions:</b><br>  Select one of the three play modes: manual, slideshow, sparkle.  Select a tile, upload media files, and choose settings.  Add text, if you wish.  Preview.  Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click <sup>"</sup>FINISH.<sup>"</sup>  Play your creation from the PoemSquare Showcase.  For more detailed instructions, print out <sup>"</sup>PoemSquare Instructions <sup>"</sup> in <sup>"</sup>Resources.<sup>"</sup>
 </p>
 <br>
 <!--Div  has poem on the first column and poem square on the second-->
@@ -33,7 +48,7 @@
 <!--Column 1 Poem -->
 <div  class="col-sm-5 col-md-5 col-lg-5">
 
-<p id="left"> 
+<p id="left"> S
 Black A, white E, red I, green U, blue O - vowels,<br>		
 Some day I will open your silent pregnancies:<br>
 A, black belt, hairy with burst flies,<br>
@@ -83,11 +98,28 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 	</a>
 	<h2>Enter Text of Choice</h2>
 	<br>
-	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<form method="post" enctype="multipart/form-data">
+	<label id="alert"></label>
+	<textarea rows="5" cols="15" id="text_tile1" name="textTile1"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile1" id="add_text" class="add_text"/>
 	</form>
 	</div>
+
+	<?php 
+	if(isset($_POST['Add_text_Tile1'])){
+		$tile_no=1;
+		$dataEntered=$_POST['textTile1'];
+		$path=$_SESSION['TilePath']."1/Tile1Text.txt";
+		$TextFileTile1=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile1, $dataEntered);
+		fclose($TextFileTile1);
+		$textUploadTile1="UPDATE $tableName SET Text_File='Tile1Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$res=@mysqli_query($dbc, $textUploadTile1);
+
+	}
+
+	?> 
 	<!--Close Pop Up when clicked on Add Start-->
 	 <script>
  	 $( "#add_text" ).click(function() { $(location).attr('href', '#close');});
@@ -103,21 +135,21 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
 <input type="radio" name="RadioTile1" id="RadioTile1Image" onchange="enableTile1()"/>
-<a href="#openImageUpload" id="ImageIconTile1">
+<a href="#openImageUpload1" id="ImageIconTile1">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload1" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-	<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile1" accept="image/*"/>
+	<input type="submit" value="Add Image" name="Add_image_Tile1" id="add_image"/>
 	</form>		
 	</div>
 	<!--Close Pop Up when clicked on Add Start-->
@@ -125,6 +157,22 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
  	 $( "#add_image" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+ 	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile1'])){
+ 	 	$tile_no=1; 
+ 	 	$name_file=$_FILES['image_tile1']['name'];
+		$tmp_name=$_FILES['image_tile1']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."1/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile1/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$res=@mysqli_query($dbc, $imageUpload);
+
+ 	 }
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -134,51 +182,71 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
 <input type="radio" name="RadioTile1" id="RadioTile1Video" onchange="enableTile1()"/>
-<a href="#openVideoUpload" id="VideoIconTile1">
+<a href="#openVideoUpload1" id="VideoIconTile1">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End -->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload1" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile1" id="add_video1"/>
 	</form>		
 	</div>
+	
 	<!--Close Pop Up when clicked on Add Start-->
 	 <script>
- 	 $( "#add_video" ).click(function() { $(location).attr('href', '#close');});
+ 	 $( "#add_video1" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile1'])){
+ 	 	$tile_no=1; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_video="$_SESSION['TilePath']"."1/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile1/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Video Upload Icon End -->
 <!--Video Upload end-->
 
+
+
 <!-- Upload Audio -->
 <!--Audio upload icon Start-->
 <input type="radio" name="RadioTile1" id="RadioTile1Audio" onchange="enableTile1()"/>
-<a href="#openAudioUpload" id="AudioIconTile1">
+<a href="#openAudioUpload1" id="AudioIconTile1">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon End-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload1" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile1" id="add_audio"/>
 	</form>		
 	</div>
 	<!--Close Pop Up when clicked on Add Start-->
@@ -186,6 +254,23 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
  	 $( "#add_audio" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile1'])){
+ 	 	$tile_no=1; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."1/$name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile1/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
+
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -202,6 +287,51 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Playing mode</h2>
+
+	<?php
+	$tile_no=1;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."1/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile1/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."1/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile1/".$imageName;
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."1/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile1/".$videoName;
+		displayVideo($path);
+    } else if($audioName!=NULL){
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."1/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile1/".$audioName;
+		displayAudio($path);
+    }
+	
+}
+}
+	?>
+
+
+	
 	</div>
 </div>
 <!--Play End-->
@@ -211,12 +341,12 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon1" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap1" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
-
 <script>
 $( "#DeleteTile1" ).click(function() {
-  $( "#TextIconTile1, #ImageIconTile1, #PlayIConTile1, #AudioIconTile1, #VideoIconTile1, #Del-swap1, #DeleteIcon1").toggle();
+  $( "#TextIconTile1, #ImageIconTile1, #PlayIConTile1, #AudioIconTile1, #VideoIconTile1, #Del-swap1, #DeleteIcon1, #RadioTile1Text, #RadioTile1Image, #RadioTile1Video, #RadioTile1Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -233,12 +363,12 @@ $( "#DeleteTile1" ).click(function() {
 <!-- Input Text.-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile2" id="RadioTile2Text"  onchange="enableTile2()"/>
-<a href="#openTextUpload"  id="TextIconTile2">
+<a href="#openTextUpload2"  id="TextIconTile2">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload2" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -246,10 +376,35 @@ $( "#DeleteTile1" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<label id="alertTextTile2"></label>
+	<textarea rows="5" cols="15" id="text_tile2" name="textTile2" onblur="validateTextTile2()"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile" id="add_text2"  class="add_text"/>
 	</form>
 	</div>
+		<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text2" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+
+	<?php 
+	if(isset($_POST['Add_text_Tile'])){
+
+		$tile_no=2;
+		$dataEntered=$_POST['textTile2'];
+		// Original:$path=$_SESSION['TilePath']."2/Tile2Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile2/Tile2Text.txt';
+		$TextFileTile2=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile2, $dataEntered);
+		fclose($TextFileTile2);
+		$textUploadTile2="UPDATE $tableName SET Text_File='Tile2Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile2);
+
+	}
+	?>
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
@@ -258,23 +413,44 @@ $( "#DeleteTile1" ).click(function() {
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
 <input type="radio" name="RadioTile2" id="RadioTile2Image" onchange="enableTile2()"/>
-<a href="#openImageUpload" id="ImageIconTile2">
+<a href="#openImageUpload2" id="ImageIconTile2">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload2" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-	<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile2" accept="image/*"/>
+	<input type="submit" value="Add Image" name="Add_image_Tile2" id="add_image2"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image2" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile2'])){
+ 	 	$tile_no=2; 
+ 	 	$name_file=$_FILES['image_tile2']['name'];
+		$tmp_name=$_FILES['image_tile2']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."2/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile2/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$res=@mysqli_query($dbc, $imageUpload);
+ 	 }
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -283,23 +459,45 @@ $( "#DeleteTile1" ).click(function() {
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
 <input type="radio" name="RadioTile2" id="RadioTile2Video" onchange="enableTile2()"/>
-<a href="#openVideoUpload" id="VideoIconTile2">
+<a href="#openVideoUpload2" id="VideoIconTile2">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End -->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload2" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile2" id="add_video2"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video2" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile2'])){
+ 	 	$tile_no=2; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."2/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile2/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload end-->
 <!--Video Upload end-->
@@ -320,11 +518,32 @@ $( "#DeleteTile1" ).click(function() {
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile2" id="add_audio2"/>
 	</form>		
 	</div>
+		<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio2" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile2'])){
+ 	 	$tile_no=2; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."2/$name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile2/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -356,7 +575,7 @@ $( "#DeleteTile1" ).click(function() {
 
 <script>
 $( "#DeleteTile2" ).click(function() {
-  $( "#TextIconTile2, #ImageIconTile2, #PlayIConTile2, #AudioIconTile2, #VideoIconTile2, #Del-swap2, #DeleteIcon2").toggle();
+  $( "#TextIconTile2, #ImageIconTile2, #PlayIConTile2, #AudioIconTile2, #VideoIconTile2, #Del-swap2, #DeleteIcon2,  #RadioTile2Text, #RadioTile2Image, #RadioTile2Video, #RadioTile2Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -373,13 +592,13 @@ $( "#DeleteTile2" ).click(function() {
 <!-- Input Text.-->
 
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile3" id="RadioTile3Text"/>
-<a href="#openTextUpload" id="TextIconTile3">
+<input type="radio" name="RadioTile3" id="RadioTile3Text" onchange="enableTile3()"/>
+<a href="#openTextUpload3" id="TextIconTile3">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload Start-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload3" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -387,10 +606,35 @@ $( "#DeleteTile2" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile3" name="textTile3"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile3" id="add_text3"  class="add_text"/>
 	</form>
 	</div>
+	
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text3" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	<?php 
+	if(isset($_POST['Add_text_Tile3'])){
+
+		$tile_no=3;
+		$dataEntered=$_POST['textTile3'];
+		// Original:$path=$_SESSION['TilePath']."3/Tile3Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile3/Tile3Text.txt';
+		$TextFileTile3=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile3, $dataEntered);
+		fclose($TextFileTile3);
+		$textUploadTile3="UPDATE $tableName SET Text_File='Tile3Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile3);
+
+	}
+	?>
+
+
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
@@ -399,24 +643,48 @@ $( "#DeleteTile2" ).click(function() {
 <!-- Upload Image-->
 
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile3" id="RadioTile3Image"/>
-<a href="#openImageUpload" id="ImageIconTile3">
+<input type="radio" name="RadioTile3" id="RadioTile3Image" onchange="enableTile3()"/>
+<a href="#openImageUpload3" id="ImageIconTile3">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload3" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-	<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile3" accept="image/*"/>
+	<input type="submit" value="Add Image" name="Add_image_Tile3" id="add_image3"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image3" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile3'])){
+ 	 	$tile_no=3; 
+ 	 	$name_file=$_FILES['image_tile3']['name'];
+		$tmp_name=$_FILES['image_tile3']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."3/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile3/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 		
+ 	 }
+
+
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -425,49 +693,92 @@ $( "#DeleteTile2" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile3" id="RadioTile3Video"/>
-<a href="#openVideoUpload" id="VideoIconTile3">
+<input type="radio" name="RadioTile3" id="RadioTile3Video" onchange="enableTile3()"/>
+<a href="#openVideoUpload3" id="VideoIconTile3">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End-->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload3" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile3" id="add_video3"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video3" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile3'])){
+ 	 	$tile_no=3; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."3/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile3/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload end-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile3" id="RadioTile3Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile3">
+<input type="radio" name="RadioTile3" id="RadioTile3Audio" onchange="enableTile3()"/>
+<a href="#openAudioUpload3" id="AudioIconTile3">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon start-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload3" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile3" id="add_audio3"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio3" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile3'])){
+ 	 	$tile_no=3; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."3/$name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile3/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -499,7 +810,7 @@ $( "#DeleteTile2" ).click(function() {
 
 <script>
 $( "#DeleteTile3" ).click(function() {
-  $( "#TextIconTile3, #ImageIconTile3, #PlayIConTile3, #AudioIconTile3, #VideoIconTile3, #Del-swap3, #DeleteIcon3").toggle();
+  $( "#TextIconTile3, #ImageIconTile3, #PlayIConTile3, #AudioIconTile3, #VideoIconTile3, #Del-swap3, #DeleteIcon3,  #RadioTile3Text, #RadioTile3Image, #RadioTile3Video, #RadioTile3Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -522,13 +833,13 @@ $( "#DeleteTile3" ).click(function() {
 
 <!-- Input Text.-->
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile4" id="RadioTile4Text"/>
-<a href="#openTextUpload" id="TextIconTile4">
+<input type="radio" name="RadioTile4" id="RadioTile4Text" onchange="enableTile4()"/>
+<a href="#openTextUpload4" id="TextIconTile4">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload4" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -536,10 +847,34 @@ $( "#DeleteTile3" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile4" name="textTile4"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile4" id="add_text4"  class="add_text"/>
 	</form>
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text4" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 	<?php 
+	if(isset($_POST['Add_text_Tile4'])){
+
+		$tile_no=4;
+		$dataEntered=$_POST['textTile4'];
+		// Original:$path=$_SESSION['TilePath']."4/Tile4Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile4/Tile4Text.txt';
+		$TextFileTile4=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile4, $dataEntered);
+		fclose($TextFileTile4);
+		$textUploadTile4="UPDATE $tableName SET Text_File='Tile4Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile4);
+
+	}
+	?>
+
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
@@ -547,25 +882,48 @@ $( "#DeleteTile3" ).click(function() {
 <!-- Upload Image-->
 
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile4" id="RadioTile4Image"/>
-<a href="#openImageUpload" id="ImageIconTile4">
+<input type="radio" name="RadioTile4" id="RadioTile4Image" onchange="enableTile4()"/>
+<a href="#openImageUpload4" id="ImageIconTile4">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload4" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-	<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="POST" enctype="multipart/form-data">
+	<input type="file" name="image_tile4" accept="image/*"/>
+	<input type="submit" value="Add Image" name="Add_image_Tile4" id="add_image4"/>
 
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image4" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile4'])){
+ 	 	$tile_no=4; 
+ 	 	$name_file=$_FILES['image_tile4']['name'];
+		$tmp_name=$_FILES['image_tile4']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."4/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile4/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -574,49 +932,92 @@ $( "#DeleteTile3" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile4" id="RadioTile4Video"/>
-<a href="#openVideoUpload" id="VideoIconTile4">
+<input type="radio" name="RadioTile4" id="RadioTile4Video" onchange="enableTile4()"/>
+<a href="#openVideoUpload4" id="VideoIconTile4">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End-->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload4" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data"> 
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile4" id="add_video4"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video4" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile4'])){
+ 	 	$tile_no=4; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."4/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile4/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload end-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile4" id="RadioTile4Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile4">
+<input type="radio" name="RadioTile4" id="RadioTile4Audio" onchange="enableTile4()"/>
+<a href="#openAudioUpload4" id="AudioIconTile4">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon End-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload4" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile4" id="add_audio4"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio4" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile4'])){
+ 	 	$tile_no=4; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."4/$name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile4/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -648,7 +1049,7 @@ $( "#DeleteTile3" ).click(function() {
 
 <script>
 $( "#DeleteTile4" ).click(function() {
-  $( "#TextIconTile4, #ImageIconTile4, #PlayIConTile4, #AudioIconTile4, #VideoIconTile4, #Del-swap4, #DeleteIcon4").toggle();
+  $( "#TextIconTile4, #ImageIconTile4, #PlayIConTile4, #AudioIconTile4, #VideoIconTile4, #Del-swap4, #DeleteIcon4,  #RadioTile4Text, #RadioTile4Image, #RadioTile4Video, #RadioTile4Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -665,13 +1066,13 @@ $( "#DeleteTile4" ).click(function() {
 <!-- Input Text.-->
 
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile5" id="RadioTile5Text"/>
-<a href="#openTextUpload" id="TextIconTile5">
+<input type="radio" name="RadioTile5" id="RadioTile5Text" onchange="enableTile5()"/>
+<a href="#openTextUpload5" id="TextIconTile5">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload5" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -679,10 +1080,34 @@ $( "#DeleteTile4" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile5" name="textTile5"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile5" id="add_text5"  class="add_text"/>
 	</form>
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text5" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php 
+	if(isset($_POST['Add_text_Tile5'])){
+
+		$tile_no=5;
+		$dataEntered=$_POST['textTile5'];
+		// Original:$path=$_SESSION['TilePath']."5/Tile5Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile5/Tile5Text.txt';
+		$TextFileTile5=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile5, $dataEntered);
+		fclose($TextFileTile5);
+		$textUploadTile5="UPDATE $tableName SET Text_File='Tile5Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile5);
+
+	}
+	?>
+
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
@@ -690,24 +1115,48 @@ $( "#DeleteTile4" ).click(function() {
 <!-- Upload Image-->
 
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile5" id="RadioTile5Image"/>
-<a href="#openImageUpload" id="ImageIconTile5">
+<input type="radio" name="RadioTile5" id="RadioTile5Image" onchange="enableTile5()"/>
+<a href="#openImageUpload5" id="ImageIconTile5">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload5" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-		<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile5" accept="image/*"/>
+		<input type="submit" value="Add Image" name="Add_image_Tile5" id="add_image5"/>
 	</form>		
 	</div>
+		<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image5" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile5'])){
+ 	 	$tile_no=5; 
+ 	 	$name_file=$_FILES['image_tile5']['name'];
+		$tmp_name=$_FILES['image_tile5']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."5/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile5/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 	 }
+
+
+ 	 ?>
+
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -716,49 +1165,92 @@ $( "#DeleteTile4" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile5" id="RadioTile5Video"/>
-<a href="#openVideoUpload" id="VideoIconTile5">
+<input type="radio" name="RadioTile5" id="RadioTile5Video" onchange="enableTile5()"/>
+<a href="#openVideoUpload5" id="VideoIconTile5">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End -->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload5" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile5" id="add_video5"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video5" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile5'])){
+ 	 	$tile_no=5; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."5/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile5/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload end-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile5" id="RadioTile5Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile5">
+<input type="radio" name="RadioTile5" id="RadioTile5Audio" onchange="enableTile5()"/>
+<a href="#openAudioUpload5" id="AudioIconTile5">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon End-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload5" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile5" id="add_audio5"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio5" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile5'])){
+ 	 	$tile_no=5; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."5/ $name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile5/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -775,6 +1267,7 @@ $( "#DeleteTile4" ).click(function() {
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Play button</h2>
+
 	</div>
 </div>
 <!--Play End-->
@@ -790,7 +1283,7 @@ $( "#DeleteTile4" ).click(function() {
 
 <script>
 $( "#DeleteTile5" ).click(function() {
-  $( "#TextIconTile5, #ImageIconTile5, #PlayIConTile5, #AudioIconTile5, #VideoIconTile5, #Del-swap5, #DeleteIcon5").toggle();
+  $( "#TextIconTile5, #ImageIconTile5, #PlayIConTile5, #AudioIconTile5, #VideoIconTile5, #Del-swap5, #DeleteIcon5,  #RadioTile5Text, #RadioTile5Image, #RadioTile5Video, #RadioTile5Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -808,13 +1301,13 @@ $( "#DeleteTile5" ).click(function() {
 <!-- Input Text.-->
 
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile6" id="RadioTile6Text"/>
-<a href="#openTextUpload" id="TextIconTile6">
+<input type="radio" name="RadioTile6" id="RadioTile6Text" onchange="enableTile6()" />
+<a href="#openTextUpload6" id="TextIconTile6">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload6" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -822,34 +1315,80 @@ $( "#DeleteTile5" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile6" name="textTile6"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile6" id="add_text6"  class="add_text"/>
 	</form>
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text6" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 	<?php 
+	if(isset($_POST['Add_text_Tile6'])){
+
+		$tile_no=6;
+		$dataEntered=$_POST['textTile6'];
+		// Original:$path=$_SESSION['TilePath']."6/Tile6Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile6/Tile6Text.txt';
+		$TextFileTile6=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile6, $dataEntered);
+		fclose($TextFileTile6);
+		$textUploadTile6="UPDATE $tableName SET Text_File='Tile6Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile6);
+
+	}
+	?>
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
 
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile6" id="RadioTile6Image"/>
-<a href="#openImageUpload" id="ImageIconTile6">
+<input type="radio" name="RadioTile6" id="RadioTile6Image" onchange="enableTile6()"/>
+<a href="#openImageUpload6" id="ImageIconTile6">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload6" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-		<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile6" accept="image/*"/>
+		<input type="submit" value="Add Image" name="Add_image_Tile6" id="add_image6"/>
 	</form>		
 	</div>
+			<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image6" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile6'])){
+ 	 	$tile_no=6; 
+ 	 	$name_file=$_FILES['image_tile6']['name'];
+		$tmp_name=$_FILES['image_tile6']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."6/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile6/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -858,49 +1397,92 @@ $( "#DeleteTile5" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile6" id="RadioTile6Video"/>
-<a href="#openVideoUpload" id="VideoIconTile6">
+<input type="radio" name="RadioTile6" id="RadioTile6Video" onchange="enableTile6()"/>
+<a href="#openVideoUpload6" id="VideoIconTile6">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End -->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload6" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile6" id="add_video6"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video6" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile6'])){
+ 	 	$tile_no=6; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."6/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile6/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload Start-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile6" id="RadioTile6Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile6">
+<input type="radio" name="RadioTile6" id="RadioTile6Audio" onchange="enableTile6()"/>
+<a href="#openAudioUpload6" id="AudioIconTile6">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon end-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload6" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile6" id="add_audio6"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio6" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile6'])){
+ 	 	$tile_no=6; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."6/ $name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile6/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -932,7 +1514,7 @@ $( "#DeleteTile5" ).click(function() {
 
 <script>
 $( "#DeleteTile6" ).click(function() {
-  $( "#TextIconTile6, #ImageIconTile6, #PlayIConTile6,#AudioIconTile6, #VideoIconTile6, #Del-swap6, #DeleteIcon6").toggle();
+  $( "#TextIconTile6, #ImageIconTile6, #PlayIConTile6,#AudioIconTile6, #VideoIconTile6, #Del-swap6, #DeleteIcon6,  #RadioTile6Text, #RadioTile6Image, #RadioTile6Video, #RadioTile6Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -955,13 +1537,13 @@ $( "#DeleteTile6" ).click(function() {
 
 <!-- Input Text.-->
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile7" id="RadioTile7Text"/>
-<a href="#openTextUpload" id="TextIconTile7">
+<input type="radio" name="RadioTile7" id="RadioTile7Text" onchange="enableTile7()"/>
+<a href="#openTextUpload7" id="TextIconTile7">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload7" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -969,34 +1551,80 @@ $( "#DeleteTile6" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile7" name="textTile7"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile7" id="add_text7"  class="add_text"/>
 	</form>
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text7" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 	<?php 
+	if(isset($_POST['Add_text_Tile7'])){
+
+		$tile_no=7;
+		$dataEntered=$_POST['textTile7'];
+		// Original:$path=$_SESSION['TilePath']."7/Tile7Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile7/Tile7Text.txt';
+		$TextFileTile7=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile7, $dataEntered);
+		fclose($TextFileTile7);
+		$textUploadTile7="UPDATE $tableName SET Text_File='Tile7Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile7);
+
+	}
+	?>
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
 
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile7" id="RadioTile7Image"/>
-<a href="#openImageUpload" id="ImageIconTile7">
+<input type="radio" name="RadioTile7" id="RadioTile7Image" onchange="enableTile7()"/>
+<a href="#openImageUpload7" id="ImageIconTile7">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload7" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-		<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile7" accept="image/*"/>
+		<input type="submit" value="Add Image" name="Add_image_Tile7" id="add_image7"/>
 	</form>		
 	</div>
+				<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image7" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile7'])){
+ 	 	$tile_no=7; 
+ 	 	$name_file=$_FILES['image_tile7']['name'];
+		$tmp_name=$_FILES['image_tile7']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."7/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile7/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload Start-->
 <!--Image Upload end-->
@@ -1005,49 +1633,91 @@ $( "#DeleteTile6" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile7" id="RadioTile7Video"/>
-<a href="#openVideoUpload" id="VideoIconTile7">
+<input type="radio" name="RadioTile7" id="RadioTile7Video" onchange="enableTile7()"/>
+<a href="#openVideoUpload7" id="VideoIconTile7">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End-->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload7" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile7" id="add_video7"/>
 	</form>		
-	</div>
-</div>
+	</div
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video7" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile7'])){
+ 	 	$tile_no=7; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."7/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile7/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?></div>
 <!--Pop up for video upload Start-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile7" id="RadioTile7Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile7">
+<input type="radio" name="RadioTile7" id="RadioTile7Audio" onchange="enableTile7()"/>
+<a href="#openAudioUpload7" id="AudioIconTile7">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon end-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload7" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile7" id="add_audio7"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio7" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile7'])){
+ 	 	$tile_no=7; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."7/ $name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile7/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -1079,7 +1749,7 @@ $( "#DeleteTile6" ).click(function() {
 
 <script>
 $( "#DeleteTile7" ).click(function() {
-  $( "#TextIconTile7, #ImageIconTile7, #PlayIConTile7, #AudioIconTile7, #VideoIconTile7, #Del-swap7, #DeleteIcon7").toggle();
+  $( "#TextIconTile7, #ImageIconTile7, #PlayIConTile7, #AudioIconTile7, #VideoIconTile7, #Del-swap7, #DeleteIcon7,  #RadioTile7Text, #RadioTile7Image, #RadioTile7Video, #RadioTile7Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -1096,13 +1766,13 @@ $( "#DeleteTile7" ).click(function() {
 <!-- Input Text.-->
 
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile8" id="RadioTile8Text"/>
-<a href="#openTextUpload" id="TextIconTile8">
+<input type="radio" name="RadioTile8" id="RadioTile8Text" onchange="enableTile8()"/>
+<a href="#openTextUpload8" id="TextIconTile8">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload8" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -1110,10 +1780,32 @@ $( "#DeleteTile7" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile8" name="textTile8"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile8" id="add_text8"  class="add_text"/>
 	</form>
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text8" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+ 	 	<?php 
+	if(isset($_POST['Add_text_Tile8'])){
+
+		$tile_no=8;
+		$dataEntered=$_POST['textTile8'];
+		// Original:$path=$_SESSION['TilePath']."8/Tile8Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile8/Tile8Text.txt';
+		$TextFileTile8=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile8, $dataEntered);
+		fclose($TextFileTile8);
+		$textUploadTile8="UPDATE $tableName SET Text_File='Tile8Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile8);
+
+	}
+	?>
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
@@ -1121,24 +1813,47 @@ $( "#DeleteTile7" ).click(function() {
 
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile8" id="RadioTile8Image"/>
-<a href="#openImageUpload" id="ImageIconTile8">
+<input type="radio" name="RadioTile8" id="RadioTile8Image"  onchange="enableTile8()"/>
+<a href="#openImageUpload8" id="ImageIconTile8">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload8" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-		<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile8" accept="image/*"/>
+		<input type="submit" value="Add Image" name="Add_image_Tile8" id="add_image8"/>
 	</form>		
 	</div>
+					<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image8" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile8'])){
+ 	 	$tile_no=8; 
+ 	 	$name_file=$_FILES['image_tile8']['name'];
+		$tmp_name=$_FILES['image_tile8']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."8/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile8/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload Start-->
 <!--Image Upload end-->
@@ -1147,49 +1862,92 @@ $( "#DeleteTile7" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile8" id="RadioTile8video"/>
-<a href="#openVideoUpload" id="VideoIconTile8">
+<input type="radio" name="RadioTile8" id="RadioTile8Video"  onchange="enableTile8()"/>
+<a href="#openVideoUpload8" id="VideoIconTile8">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End-->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload8" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile8" id="add_video8"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video8" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile8'])){
+ 	 	$tile_no=8; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."8/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile8/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload end-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile8" id="RadioTile8Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile8">
+<input type="radio" name="RadioTile8" id="RadioTile8Audio"  onchange="enableTile8()"/>
+<a href="#openAudioUpload8" id="AudioIconTile8">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon End-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload8" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile8" id="add_audio8"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio8" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile8'])){
+ 	 	$tile_no=8; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."8/ $name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile8/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload end-->
@@ -1222,7 +1980,7 @@ $( "#DeleteTile7" ).click(function() {
 
 <script>
 $( "#DeleteTile8" ).click(function() {
-  $( "#TextIconTile8, #ImageIconTile8, #PlayIConTile8,#AudioIconTile8, #VideoIconTile8, #Del-swap8, #DeleteIcon8").toggle();
+  $( "#TextIconTile8, #ImageIconTile8, #PlayIConTile8,#AudioIconTile8, #VideoIconTile8, #Del-swap8, #DeleteIcon8, #RadioTile8Text, #RadioTile8Image, #RadioTile8Video, #RadioTile8Audio").toggle();
 });
 </script>
 <!--Delete End-->
@@ -1240,13 +1998,13 @@ $( "#DeleteTile8" ).click(function() {
 <!-- Input Text.-->
 
 <!--Text upload icon Start-->
-<input type="radio" name="RadioTile9" id="RadioTile9Text"/>
-<a href="#openTextUpload" id="TextIconTile9">
+<input type="radio" name="RadioTile9" id="RadioTile9Text"  onchange="enableTile9()"/>
+<a href="#openTextUpload9" id="TextIconTile9">
 	<img src="images/textupload.png" class="icon" title="Add Text">
 </a>
 <!--Text upload icon End-->
 <!--Pop up for text upload-->
-<div id="openTextUpload" class="modalDialog">
+<div id="openTextUpload9" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
@@ -1254,34 +2012,79 @@ $( "#DeleteTile8" ).click(function() {
 	<h2>Enter Text of Choice</h2>
 	<br>
 	<form method="post" enctype="multipart/form-data" >
-	<textarea rows="5" cols="15" id="text_tile1"></textarea><br>
-	<input type="submit" value="Add Text" name="Add_text" id="add_text"/>
+	<textarea rows="5" cols="15" id="text_tile19" name="textTile9"></textarea><br>
+	<input type="submit" value="Add Text" name="Add_text_Tile9" id="add_text9"  class="add_text"/>
 	</form>
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_text9" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+ 	 	<?php 
+	if(isset($_POST['Add_text_Tile9'])){
+
+		$tile_no=9;
+		$dataEntered=$_POST['textTile9'];
+		// Original:$path=$_SESSION['TilePath']."9/Tile9Text.txt";
+		//Testing:
+		$path='Showcase/17/trail4/Tile9/Tile9Text.txt';
+		$TextFileTile9=fopen($path,"w+");
+		file_put_contents($path, "");
+		fwrite($TextFileTile9, $dataEntered);
+		fclose($TextFileTile9);
+		$textUploadTile9="UPDATE $tableName SET Text_File='Tile9Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		$re=@mysqli_query($dbc, $textUploadTile9);
+
+	}
+	?>
 </div>
 <!--Pop up for text upload End-->
 <!--Upload Text End-->
 
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
-<input type="radio" name="RadioTile9" id="RadioTile9Image"/>
-<a href="#openImageUpload" id="ImageIconTile9">
+<input type="radio" name="RadioTile9" id="RadioTile9Image" onchange="enableTile9()"/>
+<a href="#openImageUpload9" id="ImageIconTile9">
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
 <!-- Pop up for Image Upload Start-->
-<div id="openImageUpload" class="modalDialog">
+<div id="openImageUpload9" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Image</h2>
 	<br>
-	<form>
-	<input type="file" name="uploaded_image" accept="image/*"/>
-	<input type="submit" value="Add Image" name="Add_image" id="add_image"/>
+	<form method="post" enctype="multipart/form-data">
+	<input type="file" name="image_tile9" accept="image/*"/>
+	<input type="submit" value="Add Image" name="Add_image_Tile9" id="add_image9"/>
 	</form>		
 	</div>
+					<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_image9" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+	 <?php
+
+ 	 if(isset($_POST['Add_image_Tile9'])){
+ 	 	$tile_no=9; 
+ 	 	$name_file=$_FILES['image_tile9']['name'];
+		$tmp_name=$_FILES['image_tile9']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."9/$name_file";
+		//Testing
+		$local_image="ShowCase/17/trail4/Tile9/$name_file";
+		move_uploaded_file($tmp_name, $local_image);
+		$imageUpload="UPDATE $tableName SET Text_File=NULL, Image='$name_file', Video=NULL, Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $imageUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!-- Pop up for Image Upload End-->
 <!--Image Upload end-->
@@ -1290,50 +2093,93 @@ $( "#DeleteTile8" ).click(function() {
 
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
-<input type="radio" name="RadioTile9" id="RadioTile9Video"/>
-<a href="#openVideoUpload" id="VideoIconTile9">
+<input type="radio" name="RadioTile9" id="RadioTile9Video" onchange="enableTile9()"/>
+<a href="#openVideoUpload9" id="VideoIconTile9">
 	<img src="images/videoupload.png" class="icon" title="Add Video">
 </a>
 <!--Video Upload Icon End -->
 <!--Pop up for video upload Start-->
-<div id="openVideoUpload" class="modalDialog">
+<div id="openVideoUpload9" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose a Video </h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_video" accept="video/*"/>
-	<input type="submit" value="Add Video" name="Add_video" id="add_video"/>
+	<input type="submit" value="Add Video" name="Add_video_Tile9" id="add_video9"/>
 	
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_video9" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+	 <?php
+
+ 	 if(isset($_POST['Add_video_Tile9'])){
+ 	 	$tile_no=9; 
+ 	 	$name_file=$_FILES['uploaded_video']['name'];
+		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
+		//orginal syntax:
+		//$local_image="$_SESSION['TilePath']"."9/$name_file";
+		//Testing
+		$local_video="ShowCase/17/trail4/Tile9/$name_file";
+		move_uploaded_file($tmp_name, $local_video);
+		$videoUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video='$name_file', Audio= NULL where Tile_ID=$tile_no";
+		mysqli_query($dbc, $videoUpload);
+ 	 }
+
+
+ 	 ?>
 </div>
 <!--Pop up for video upload end-->
 <!--Video Upload end-->
 
 <!-- Upload Audio -->
 <!--Audio upload icon start-->
-<input type="radio" name="RadioTile9" id="RadioTile9Audio"/>
-<a href="#openAudioUpload" id="AudioIconTile9">
+<input type="radio" name="RadioTile9" id="RadioTile9Audio" onchange="enableTile9()"/>
+<a href="#openAudioUpload9" id="AudioIconTile9">
 	<img src="images/audioupload.jpg" class="icon" title="Add Audio">
 </a>
 <!--Audio upload icon End-->
 <br>
 <!--Pop up for Audio upload Start-->
-<div id="openAudioUpload" class="modalDialog">
+<div id="openAudioUpload9" class="modalDialog">
 	<div>
 	<a href="#close" title="Close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	<h2>Choose an Audio</h2>
 	<br>
-	<form>
+	<form method="post" enctype="multipart/form-data">
 	<input type="file" name="uploaded_file" accept="audio/*"/>
-	<input type="submit" value="Add Audio" name="Add_audio" id="add_audio"/>
+	<input type="submit" value="Add Audio" name="Add_audio_Tile9" id="add_audio9"/>
 	</form>		
 	</div>
+	<!--Close Pop Up when clicked on Add Start-->
+	 <script>
+ 	 $( "#add_audio9" ).click(function() { $(location).attr('href', '#close');});
+ 	 </script>
+ 	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <?php
+
+ 	 if(isset($_POST['Add_audio_Tile9'])){
+ 	 	$tile_no=9; 
+ 	 	$name_file=$_FILES['uploaded_file']['name'];
+		$tmp_name=$_FILES['uploaded_file']['tmp_name'];
+		//orginal syntax:
+		//$local_audio="$_SESSION['TilePath']"."9/ $name_file";
+		//Testing
+		$local_audio="ShowCase/17/trail4/Tile9/$name_file";
+		move_uploaded_file($tmp_name, $local_audio);
+		$audioUpload="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio= '$name_file' where Tile_ID=$tile_no";
+		mysqli_query($dbc, $audioUpload);
+ 	 }
+ 	 ?>
 </div>
 <br>
 <!--Pop up for Audio upload End-->
@@ -1365,7 +2211,7 @@ $( "#DeleteTile8" ).click(function() {
 
 <script>
 $( "#DeleteTile9" ).click(function() {
-  $( "#TextIconTile9, #ImageIconTile9, #PlayIConTile9,#AudioIconTile9, #VideoIconTile9, #Del-swap9, #DeleteIcon9").toggle();
+  $( "#TextIconTile9, #ImageIconTile9, #PlayIConTile9,#AudioIconTile9, #VideoIconTile9, #Del-swap9, #DeleteIcon9,  #RadioTile9Text, #RadioTile9Image, #RadioTile9Video, #RadioTile9Audio").toggle();
 });
 </script>
 <!--Delete End-->
