@@ -13,7 +13,7 @@ include "display.php";
 <html>
 <head>
 	<!--Style Sheet-->
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="js/style.css">
 	<!--Jquery Library-->
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<!-- Latest compiled and minified CSS -->
@@ -28,6 +28,7 @@ include "display.php";
 	<script src="js/Radio.js"></script>
 	<script src="js/PoemSquareName.js"></script>
 	<script src="js/UploadValidation.js"></script>
+	<script src="js/play.js"></script>
 	<title>PoemSquare Work Space</title>
 </head>
 <body onload="disableLink();">
@@ -276,6 +277,7 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <!--Pop up for Audio upload end-->
 <!--Audio Upload End-->
 
+
 <!--Play button-->
 <a href="#playbutton" id="PlayIConTile1">
 	<img src="images/playbutton.png" class="button" title="Play">
@@ -283,12 +285,13 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <div id="playbutton" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close" id="close1" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Playing mode</h2>
 
 	<?php
+	$close="close1";
+	$id="PlayIConTile1";
 	$tile_no=1;
 	$query="select * from $tableName where Tile_ID=$tile_no";
 	$result=mysqli_query($dbc, $query);
@@ -301,30 +304,36 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
     $videoName=$row['Video'];
     $audioName=$row['Audio'];
      if($text!=null){
+     	$type1="text";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/Tile1Text.txt";
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$text;
     	displayText($path);
     }else if($imageName!=NULL){
+    	$type1="image";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/".$imageName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$imageName;
 		displayImage($path);
     }else if($videoName!=NULL){
+    	$type1="video";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$videoName;
-		displayVideo($path);
+		displayVideo($path,$id, $close,"video1");
     } else if($audioName!=NULL){
+    	$type1="audio";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$audioName;
-		displayAudio($path);
+		displayAudio($path,$id,$close);
     }
+    ?> <input type="hidden" name="type" value="<?=$type1 ?>" id="Tile1Type"/>
+<?php 
 	
 }
 }
@@ -335,6 +344,13 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 	</div>
 </div>
 <!--Play End-->
+
+<script>
+$('#playMovie1').click(function(){
+  $('#movie1').play();
+      });
+
+</script>
 
 <!--Delete Button-->
 <button id="DeleteTile1" style="background-color:#ffffff; border:0px;padding:0px">
@@ -550,16 +566,66 @@ $( "#DeleteTile1" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile2">
+<a href="#playbutton2" id="PlayIConTile2">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton2" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close" id="close2"  class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+
+	<?php
+	$close="close2";
+	$id="PlayIConTile2";
+	$tile_no=2;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	echo $row['Tile_ID'];
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type2="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."2/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile2/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type2="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."2/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile2/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type2="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."2/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile2/".$videoName;
+		displayVideo($path,$id, $close, "video2");
+    } else if($audioName!=NULL){
+    	$type2="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."2/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile2/".$audioName;
+		displayAudio($path,$id, $close);
+    }
+    ?> <input type="hidden" name="type" value="<?=$type2 ?>" id="Tile2Type"/>
+<?php 
+	
+}
+}
+	?>
 	</div>
 </div>
 <!--Play End-->
@@ -785,16 +851,66 @@ $( "#DeleteTile2" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile3">
+<a href="#playbutton3" id="PlayIConTile3">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton3" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close" id="close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+
+	<?php
+	$close="close";
+	$id="PlayIConTile3";
+	$tile_no=3;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	echo $row['Tile_ID'];
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type3="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."3/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile3/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type3="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."3/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile3/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type3="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."3/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile3/".$videoName;
+		displayVideo($path,$id, $close);
+    } else if($audioName!=NULL){
+    	$type3="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."3/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile3/".$audioName;
+		displayAudio($path,$id, $close);
+    }
+    ?> <input type="hidden" name="type" value="<?=$type3 ?>" id="Tile3Type"/>
+<?php 
+	
+}
+}
+	?>
 	</div>
 </div>
 <!--Play End-->
@@ -1024,16 +1140,66 @@ $( "#DeleteTile3" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile4">
+<a href="#playbutton4" id="PlayIConTile4">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton4" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close" id="close"  class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+
+	<?php
+	$close="close";
+	$id="PlayIConTile4";
+	$tile_no=4;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	echo $row['Tile_ID'];
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type4="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."4/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile4/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type4="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."4/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile4/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type4="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."4/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile4/".$videoName;
+		displayVideo($path,$id, $close);
+    } else if($audioName!=NULL){
+    	$type4=audio;
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."4/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile4/".$audioName;
+		displayAudio($path,$id, $close);
+    }
+    ?> <input type="hidden" name="type" value="<?=$type4 ?>" id="Tile4Type"/>
+<?php 
+	
+}
+}
+	?>
 	</div>
 </div>
 <!--Play End-->
@@ -1257,17 +1423,65 @@ $( "#DeleteTile4" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile5">
+<a href="#playbutton5" id="PlayIConTile5">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton5" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close"  id="close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
 
+	<?php
+	$close="close";
+	$id="PlayIConTile5";
+	$tile_no=5;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type5="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."5/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile5/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type5="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."5/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile5/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type5="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."5/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile5/".$videoName;
+		displayVideo($path,$id, $close);
+    } else if($audioName!=NULL){
+    	$type5="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."5/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile5/".$audioName;
+		displayAudio($path,$id, $close);
+    }
+  	?> <input type="hidden" name="type" value="<?=$type5 ?>" id="Tile5Type"/>
+	<?php 
+	
+}
+}
+	?>
 	</div>
 </div>
 <!--Play End-->
@@ -1489,16 +1703,66 @@ $( "#DeleteTile5" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile6">
+<a href="#playbutton6" id="PlayIConTile6">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton6" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close"  id="close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+	
+	<?php
+	$close="close";
+	$id="PlayIConTile6";
+	$tile_no=6;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	echo $row['Tile_ID'];
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type6="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."6/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile6/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type6="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."6/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile6/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type6="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."6/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile6/".$videoName;
+		displayVideo($path,$id, $close);
+    } else if($audioName!=NULL){
+    	$type6="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."6/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile6/".$audioName;
+		displayAudio($path,$id, $close);
+    }
+?> <input type="hidden" name="type" value="<?=$type6 ?>" id="Tile6Type"/>
+<?php 
+	
+}
+}
+	?>
 	</div>
 </div>
 <!--Play End-->
@@ -1724,16 +1988,66 @@ $( "#DeleteTile6" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile7">
+<a href="#playbutton7" id="PlayIConTile7">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton7" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close" id="close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+
+	<?php
+	$close="close";
+	$id="PlayIConTile7";
+	$tile_no=7;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	echo $row['Tile_ID'];
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type7="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."7/Tile1Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile7/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type7="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."7/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile7/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type7="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."7/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile7/".$videoName;
+		displayVideo($path,$id, $close);
+    } else if($audioName!=NULL){
+    	$type7="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."7/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile7/".$audioName;
+		displayAudio($path,$id, $close);
+    }
+?> <input type="hidden" name="type" value="<?=$type7 ?>" id="Tile7Type"/>
+<?php 
+	
+}
+}
+?>
 	</div>
 </div>
 <!--Play End-->
@@ -1954,16 +2268,71 @@ $( "#DeleteTile7" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile8">
+<a href="#playbutton8" id="PlayIConTile8">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton8" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close"  id="close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+
+	<?php
+	$close="close";
+	$id="PlayIConTile8";
+	$tile_no=8;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+    $type="";
+     if($text!=null){
+    	$type8="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."8/Tile1Text.txt";
+		//Testing
+		
+		$path="ShowCase/17/trail4/Tile8/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type8="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."8/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile8/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type8="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."8/".$videoName;
+		//Testing
+		
+		$path="ShowCase/17/trail4/Tile8/".$videoName;
+		displayVideo($path,$id, $close);
+    } else if($audioName!=NULL){
+    	$type8="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."8/".$audioName;
+		//Testing
+		
+		$path="ShowCase/17/trail4/Tile8/".$audioName;
+		displayAudio($path,$id,$close);
+
+    }
+?> <input type="hidden" name="type" value="<?=$type ?>" id="Tile8Type"/>
+<?php 
+	
+}
+}
+?>
+
 	</div>
 </div>
 <!--Play End-->
@@ -2186,16 +2555,66 @@ $( "#DeleteTile8" ).click(function() {
 <!--Audio Upload End-->
 
 <!--Play button-->
-<a href="#playbutton" id="PlayIConTile9">
+<a href="#playbutton9" id="PlayIConTile9">
 	<img src="images/playbutton.png" class="button" title="Play">
 </a>
-<div id="playbutton" class="modalDialog">
+<div id="playbutton9" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" class="close">
+	<a href="#close" title="Close"  id="close" class="close">
 		<img src="images/close.png" class="button">
 	</a>
-	<h2>Play button</h2>
+	
+	<?php
+	$close="close";
+	$id="PlayIConTile9";
+	$tile_no=9;
+	$query="select * from $tableName where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	echo $row['Tile_ID'];
+
+	if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+    $text=$row["Text_File"];
+    $imageName=$row['Image'];
+    $videoName=$row['Video'];
+    $audioName=$row['Audio'];
+     if($text!=null){
+     	$type9="text";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."9/Tile9Text.txt";
+		//Testing
+		$path="ShowCase/17/trail4/Tile9/".$text;
+    	displayText($path);
+    }else if($imageName!=NULL){
+    	$type9="image";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."9/".$imageName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile9/".$imageName; 
+		displayImage($path);
+    }else if($videoName!=NULL){
+    	$type9="video";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."9/".$videoName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile9/".$videoName;
+		displayVideo($path,$id,$close);
+    } else if($audioName!=NULL){
+    	$type9="audio";
+    	//orginal syntax:
+		//$path=$_SESSION['TilePath']."9/".$audioName;
+		//Testing
+		$path="ShowCase/17/trail4/Tile9/".$audioName;
+		displayAudio($path,$id,$close);
+  }
+?> <input type="hidden" name="type" value="<?=$type9 ?>" id="Tile9Type"/>
+<?php 
+	
+}
+}
+?>
 	</div>
 </div>
 <!--Play End-->
@@ -2226,6 +2645,16 @@ $( "#DeleteTile9" ).click(function() {
 <!--To be edited --> 
 <!--Final container-->
 </div>
+<br>
+<!--Modes-->
+<div align="center">
+
+<!--windowopen link should be changed while deploying-->
+<input type="button" value="Manual" class="modes" id="btnHome" onclick="play(['1','2','3','4','5','6','7','8','9'])" />
+<button class="modes" id="slideshow">Slideshow</button>
+<button class="modes">Sparkle</button>
+</div>
+
 <!--End of Column 2-->
 </div>
 <!--End of the Div -->
