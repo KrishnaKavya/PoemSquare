@@ -61,17 +61,17 @@ echo "<script>
       });</script>";
 }
 
-function displayAudio($path,$id,$close){
-echo "<audio id='audio' controls>
+function displayAudio($path,$id,$close, $audioid){
+echo "<audio id='$audioid' controls>
 <source src='$path' type='audio/ogg'>
 Your browser does not support the audio element.
 </audio>";
 echo "<script>$('#$id').click(function(){
- 	document.getElementById('audio').play();
+ 	document.getElementById('$audioid').play();
       });</script>";
 
 echo "<script>$('#$close').click(function(){
- 	document.getElementById('audio').pause();
+ 	document.getElementById('$audioid').pause();
       });</script>";
 }
 

@@ -1,107 +1,132 @@
 
+
 function play(seq){
-tile="Tile"+seq[0]+"Type";
-var type=$('#tile').val();
+var tile='Tile'+seq[0]+'Type';
+var type=$('#Tile'+seq[0]+'Type').val();
  $("#PlayIConTile"+seq[0]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
-    video.onended = function(e) {
-      one2nine(seq);
-        } 
+  var typeid=type+seq[0];
+ 	var vid= document.getElementById(typeid);   
+   vid.onended = function() {
+
+    $("#close"+seq[0]+" img").click();
+      setTimeout(function() 
+        {
+          one2nine(seq);
+        }, 1000);
+    
+};
  }
- else 
+ else
  {
  	setTimeout(function() 
 	{
-		one2nine(seq);
- 	}, 1000);
- }
-
+    $("#close"+seq[0]+" img").click();
+    setTimeout(function() 
+        {
+      		one2nine(seq);
+       	}, 1000);
+ }, 1500);
+}
 }
 
 //Tile2
 function one2nine(seq)
 {
-tile="Tile"+seq[1]+"Type";
-var type=$('#tile').val();
+
+tile='Tile'+seq[1]+'Type';
+var type=$('#Tile'+seq[1]+'Type').val();
  $("#PlayIConTile"+seq[1]+" img").click();
  if(type=="video" || type=="audio"){ 	
- 	var video = document.getElementById(type);   
+  var typeid=type+seq[1];
+ 	var video = document.getElementById(typeid);   
     video.onended = function(e) {
-      two2nine(seq);
+      $("#close"+seq[1]+" img").click();
+            setTimeout(function() 
+              {
+                two2nine(seq);
+              }, 1000);
+      
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		two2nine(seq);
+    $("#close"+seq[1]+" img").click();
+          setTimeout(function() 
+              {
+                two2nine(seq);
+              }, 1000);
+		
  	}, 1000);
- } 
+ }
  }
 
 //Tile3
 function two2nine(seq)
 {
 tile="Tile"+seq[2]+"Type";
-var type=$('#tile').val();
+var type=$('#Tile'+seq[2]+'Type').val();
  $("#PlayIConTile"+seq[2]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
+    var typeid=type+seq[2];
+ 	var video = document.getElementById(typeid);   
     video.onended = function(e) {
-      three2nine(seq);
+      $("#close"+seq[2]+" img").click();
+            setTimeout(function() 
+              {
+                three2nine(seq);
+              }, 1000);
+      
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		three2nine(seq);
- 	}, 1000);
- } 
+    $("#close"+seq[2]+" img").click();
+     setTimeout(function() 
+              {
+                  three2nine(seq);
+              }, 1000);
 	
+ 	}, 1000);
+ } 
+
 }
 
 //Tile4
 function three2nine(seq)
 {
 tile="Tile"+seq[3]+"Type";
-var type=$('#tile').val();
+var type=$('#Tile'+seq[3]+'Type').val();
  $("#PlayIConTile"+seq[3]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
+       var typeid=type+seq[3];
+  	var video = document.getElementById('typeid');   
     video.onended = function(e) {
-      four2nine(seq);
+    $("#close"+seq[3]+" img").click();
+     setTimeout(function() 
+              {
+                 four2nine(seq);
+              }, 1000);
+     
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		four2nine(seq);
+    $("#close"+seq[3]+" img").click();
+     setTimeout(function() 
+              {
+                four2nine(seq);
+              }, 1000);
+		
  	}, 1000);
  } 
-}
 
-//Tile4
-function three2nine(seq)
-{
-tile="Tile"+seq[3]+"Type";
-var type=$('#tile').val();
- $("#PlayIConTile"+seq[3]+" img").click();
- if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
-    video.onended = function(e) {
-      four2nine(seq);
-        } 
- }
- else 
- {
- 	setTimeout(function() 
-	{
-		four2nine(seq);
- 	}, 1000);
- } 
 }
 
 
@@ -109,40 +134,63 @@ var type=$('#tile').val();
 function four2nine(seq)
 {
 tile="Tile"+seq[4]+"Type";
-var type=$('#tile').val();
- $("#PlayIConTile"+seq[4]+" img").click();
+var type=$('#Tile'+seq[4]+'Type').val();
+$("#PlayIConTile"+seq[4]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
+   var typeid=type+seq[4];
+ 	var video = document.getElementById(typeid);   
     video.onended = function(e) {
-      five2nine(seq);
+      $("#close"+seq[4]+" img").click();
+       setTimeout(function() 
+              {
+                 five2nine(seq);
+              }, 1000);
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		five2nine(seq);
+    $("#close"+seq[4]+" img").click();
+     setTimeout(function() 
+              {
+                five2nine(seq);
+              }, 1000);
+	
  	}, 1000);
  } 
 }
+
 
 //Tile6
 function five2nine(seq)
 {
 tile="Tile"+seq[5]+"Type";
-var type=$('#tile').val();
+var type=$('#Tile'+seq[5]+'Type').val();
  $("#PlayIConTile"+seq[5]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
+   var typeid=type+seq[5];
+  var video = document.getElementById(typeid);  
     video.onended = function(e) {
-      six2nine(seq);
+      $("#close"+seq[5]+" img").click();
+       setTimeout(function() 
+              {
+                six2nine(seq);
+              }, 1000);
+      
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		six2nine(seq);
+    
+     $("#close"+seq[5]+" img").click();
+      setTimeout(function() 
+              {
+                six2nine(seq);
+              }, 1000);
+		
  	}, 1000);
  } 
 }
@@ -151,19 +199,31 @@ var type=$('#tile').val();
 function six2nine(seq)
 {
 tile="Tile"+seq[6]+"Type";
-var type=$('#tile').val();
+var type=$('#Tile'+seq[6]+'Type').val();
+
  $("#PlayIConTile"+seq[6]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
+   var typeid=type+seq[6];
+ 	var video = document.getElementById(typeid);   
     video.onended = function(e) {
-      seven2nine(seq);
+       $("#close"+seq[6]+" img").click();
+        setTimeout(function() 
+              {
+                seven2nine(seq);
+              }, 1000);
+         
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		seven2nine(seq);
+     $("#close"+seq[6]+" img").click();
+      setTimeout(function() 
+              {
+                seven2nine(seq);
+              }, 1000);
+		
  	}, 1000);
  } 
 }
@@ -172,19 +232,30 @@ var type=$('#tile').val();
 function seven2nine(seq)
 {
 tile="Tile"+seq[7]+"Type";
-var type=$('#tile').val();
+var type=$('#Tile'+seq[7]+'Type').val();
  $("#PlayIConTile"+seq[7]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
+  var typeid=type+seq[7];
+ 	var video = document.getElementById(typeid);   
     video.onended = function(e) {
-      eight2nine(seq);
+       $("#close"+seq[7]+" img").click();
+        setTimeout(function() 
+              {
+                 eight2nine(seq);
+              }, 1000);
+     
         } 
  }
  else 
  {
  	setTimeout(function() 
 	{
-		eight2nine(seq);
+     $("#close"+seq[7]+" img").click();
+      setTimeout(function() 
+              {
+                eight2nine(seq);
+              }, 1000);
+		
  	}, 1000);
  } 
 }
@@ -193,17 +264,20 @@ var type=$('#tile').val();
 function eight2nine(seq)
 {
 tile="Tile"+seq[8]+"Type";
-var type=$('#tile').val();
+var type=$('#Tile'+seq[8]+'Type').val();
  $("#PlayIConTile"+seq[8]+" img").click();
  if(type=="video" || type=="audio"){
- 	var video = document.getElementById(type);   
-    video.onended = function(e) {
-        } 
+  var typeid=type+seq[8];
+  var video = document.getElementById(typeid);  
+  video.onended = function(e) {
+       $("#close"+seq[8]+" img").click();
+  } 
  }
  else 
  {
  	setTimeout(function() 
 	{
+    $("#close"+seq[8]+" img").click();
  	}, 1000);
  } 
 }

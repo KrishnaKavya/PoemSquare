@@ -49,7 +49,7 @@ include "display.php";
 <!--Column 1 Poem -->
 <div  class="col-sm-5 col-md-5 col-lg-5">
 
-<p id="left"> S
+<p id="left" > 
 Black A, white E, red I, green U, blue O - vowels,<br>		
 Some day I will open your silent pregnancies:<br>
 A, black belt, hairy with burst flies,<br>
@@ -110,7 +110,10 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 	if(isset($_POST['Add_text_Tile1'])){
 		$tile_no=1;
 		$dataEntered=$_POST['textTile1'];
-		$path=$_SESSION['TilePath']."1/Tile1Text.txt";
+		//ORiginal
+		//$path=$_SESSION['TilePath']."1/Tile1Text.txt";
+		//Testing
+		$path='Showcase/17/trail4/Tile1Text/Tile1Text.txt';
 		$TextFileTile1=fopen($path,"w+");
 		file_put_contents($path, "");
 		fwrite($TextFileTile1, $dataEntered);
@@ -319,18 +322,20 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type1="video";
+    	$videoid="video1";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$videoName;
-		displayVideo($path,$id, $close,"video1");
+		displayVideo($path,$id, $close, $videoid);
     } else if($audioName!=NULL){
     	$type1="audio";
+    	$audioid="audio1";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$audioName;
-		displayAudio($path,$id,$close);
+		displayAudio($path,$id,$close, $audioid);
     }
     ?> <input type="hidden" name="type" value="<?=$type1 ?>" id="Tile1Type"/>
 <?php 
@@ -345,19 +350,17 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 </div>
 <!--Play End-->
 
-<script>
-$('#playMovie1').click(function(){
-  $('#movie1').play();
-      });
-
-</script>
 
 <!--Delete Button-->
-<button id="DeleteTile1" style="background-color:#ffffff; border:0px;padding:0px">
+
+<form method="post" action="poem.php" style="display: inline-block;">
+<button type=submit" id="DeleteTile1" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata1">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon1" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap1" style="display:none;"/>
 </button>
 </form>
+
+
 
 <!--Delete and reload tile Function JQuery-->
 <script>
@@ -365,6 +368,16 @@ $( "#DeleteTile1" ).click(function() {
   $( "#TextIconTile1, #ImageIconTile1, #PlayIConTile1, #AudioIconTile1, #VideoIconTile1, #Del-swap1, #DeleteIcon1, #RadioTile1Text, #RadioTile1Image, #RadioTile1Video, #RadioTile1Audio").toggle();
 });
 </script>
+
+<?php
+	if(isset($_POST['Deletedata1'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	$result=mysqli_query($dbc, $query);
+	if($result){
+		echo "<script>alert('yeyyyyy');</script>";
+	}
+	}
+?>
 <!--Delete End-->
 <!--End of Tile 1-->
 </div>
@@ -607,18 +620,20 @@ $( "#DeleteTile1" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type2="video";
+    	$videoid="video2";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."2/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile2/".$videoName;
-		displayVideo($path,$id, $close, "video2");
+		displayVideo($path,$id, $close, $videoid);
     } else if($audioName!=NULL){
     	$type2="audio";
+    	$audioid="audio2";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."2/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile2/".$audioName;
-		displayAudio($path,$id, $close);
+		displayAudio($path,$id, $close, $audioid);
     }
     ?> <input type="hidden" name="type" value="<?=$type2 ?>" id="Tile2Type"/>
 <?php 
@@ -857,12 +872,12 @@ $( "#DeleteTile2" ).click(function() {
 <div id="playbutton3" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" id="close" class="close">
+	<a href="#close" title="Close" id="close3" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 
 	<?php
-	$close="close";
+	$close="close3";
 	$id="PlayIConTile3";
 	$tile_no=3;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -892,18 +907,20 @@ $( "#DeleteTile2" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type3="video";
+    	$videoid="video3";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."3/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile3/".$videoName;
-		displayVideo($path,$id, $close);
+		displayVideo($path,$id, $close,$videoid);
     } else if($audioName!=NULL){
     	$type3="audio";
+    	$audioid="audio3";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."3/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile3/".$audioName;
-		displayAudio($path,$id, $close);
+		displayAudio($path,$id, $close, $audioid);
     }
     ?> <input type="hidden" name="type" value="<?=$type3 ?>" id="Tile3Type"/>
 <?php 
@@ -1146,12 +1163,12 @@ $( "#DeleteTile3" ).click(function() {
 <div id="playbutton4" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" id="close"  class="close">
+	<a href="#close" title="Close" id="close4"  class="close">
 		<img src="images/close.png" class="button">
 	</a>
 
 	<?php
-	$close="close";
+	$close="close4";
 	$id="PlayIConTile4";
 	$tile_no=4;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -1181,18 +1198,20 @@ $( "#DeleteTile3" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type4="video";
+    	$videoid="video4";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."4/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile4/".$videoName;
-		displayVideo($path,$id, $close);
+		displayVideo($path,$id, $close,  $videoid);
     } else if($audioName!=NULL){
-    	$type4=audio;
+    	$type4="audio";
+    	$audioid="audio4";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."4/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile4/".$audioName;
-		displayAudio($path,$id, $close);
+		displayAudio($path,$id, $close, $audioid);
     }
     ?> <input type="hidden" name="type" value="<?=$type4 ?>" id="Tile4Type"/>
 <?php 
@@ -1429,12 +1448,12 @@ $( "#DeleteTile4" ).click(function() {
 <div id="playbutton5" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close"  id="close" class="close">
+	<a href="#close" title="Close"  id="close5" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 
 	<?php
-	$close="close";
+	$close="close5";
 	$id="PlayIConTile5";
 	$tile_no=5;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -1463,18 +1482,20 @@ $( "#DeleteTile4" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type5="video";
+    	$videoid="video5";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."5/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile5/".$videoName;
-		displayVideo($path,$id, $close);
+		displayVideo($path,$id, $close, $videoid);
     } else if($audioName!=NULL){
     	$type5="audio";
+    	$audioid="audio5";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."5/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile5/".$audioName;
-		displayAudio($path,$id, $close);
+		displayAudio($path,$id, $close, $audioid);
     }
   	?> <input type="hidden" name="type" value="<?=$type5 ?>" id="Tile5Type"/>
 	<?php 
@@ -1709,12 +1730,12 @@ $( "#DeleteTile5" ).click(function() {
 <div id="playbutton6" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close"  id="close" class="close">
+	<a href="#close" title="Close"  id="close6" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	
 	<?php
-	$close="close";
+	$close="close6";
 	$id="PlayIConTile6";
 	$tile_no=6;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -1744,18 +1765,20 @@ $( "#DeleteTile5" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type6="video";
+		$videoid="video6";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."6/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile6/".$videoName;
-		displayVideo($path,$id, $close);
+		displayVideo($path,$id, $close, $videoid);
     } else if($audioName!=NULL){
     	$type6="audio";
+    	$audioid="audio6";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."6/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile6/".$audioName;
-		displayAudio($path,$id, $close);
+		displayAudio($path,$id, $close, $audioid);
     }
 ?> <input type="hidden" name="type" value="<?=$type6 ?>" id="Tile6Type"/>
 <?php 
@@ -1994,12 +2017,12 @@ $( "#DeleteTile6" ).click(function() {
 <div id="playbutton7" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close" id="close" class="close">
+	<a href="#close" title="Close" id="close7" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 
 	<?php
-	$close="close";
+	$close="close7";
 	$id="PlayIConTile7";
 	$tile_no=7;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -2029,18 +2052,20 @@ $( "#DeleteTile6" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type7="video";
+    	$videoid="video7";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."7/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile7/".$videoName;
-		displayVideo($path,$id, $close);
+		displayVideo($path,$id, $close, $videoid);
     } else if($audioName!=NULL){
     	$type7="audio";
+    	$audioid="audio7";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."7/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile7/".$audioName;
-		displayAudio($path,$id, $close);
+		displayAudio($path,$id, $close, $audioid);
     }
 ?> <input type="hidden" name="type" value="<?=$type7 ?>" id="Tile7Type"/>
 <?php 
@@ -2274,12 +2299,12 @@ $( "#DeleteTile7" ).click(function() {
 <div id="playbutton8" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close"  id="close" class="close">
+	<a href="#close" title="Close"  id="close8" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 
 	<?php
-	$close="close";
+	$close="close8";
 	$id="PlayIConTile8";
 	$tile_no=8;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -2310,20 +2335,22 @@ $( "#DeleteTile7" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type8="video";
+    	$videoid="video8";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."8/".$videoName;
 		//Testing
 		
 		$path="ShowCase/17/trail4/Tile8/".$videoName;
-		displayVideo($path,$id, $close);
+		displayVideo($path,$id, $close,$videoid);
     } else if($audioName!=NULL){
     	$type8="audio";
+    	$audioid="audio8";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."8/".$audioName;
 		//Testing
 		
 		$path="ShowCase/17/trail4/Tile8/".$audioName;
-		displayAudio($path,$id,$close);
+		displayAudio($path,$id,$close, $audioid);
 
     }
 ?> <input type="hidden" name="type" value="<?=$type ?>" id="Tile8Type"/>
@@ -2561,12 +2588,12 @@ $( "#DeleteTile8" ).click(function() {
 <div id="playbutton9" class="modalDialog">
 	<div>
 	<!--close button-->
-	<a href="#close" title="Close"  id="close" class="close">
+	<a href="#close" title="Close"  id="close9" class="close">
 		<img src="images/close.png" class="button">
 	</a>
 	
 	<?php
-	$close="close";
+	$close="close9";
 	$id="PlayIConTile9";
 	$tile_no=9;
 	$query="select * from $tableName where Tile_ID=$tile_no";
@@ -2596,18 +2623,20 @@ $( "#DeleteTile8" ).click(function() {
 		displayImage($path);
     }else if($videoName!=NULL){
     	$type9="video";
+    	$videoid="video9";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."9/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile9/".$videoName;
-		displayVideo($path,$id,$close);
+		displayVideo($path,$id,$close,$videoid);
     } else if($audioName!=NULL){
     	$type9="audio";
+    	$audioid="audio8";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."9/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile9/".$audioName;
-		displayAudio($path,$id,$close);
+		displayAudio($path,$id,$close, $audioid);
   }
 ?> <input type="hidden" name="type" value="<?=$type9 ?>" id="Tile9Type"/>
 <?php 
