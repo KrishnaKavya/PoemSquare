@@ -1,7 +1,13 @@
 <!--
 
-The poem.php has the Implemetation of the Poem Square activity. 
+The poem.php has the Implemetation of the Poem Square activity.
+The session is started. The Session variables has the information about the Mediator. 
+1. User ID.
+2. User Name.
+3. PoemSqaure activity Name. 
 
+The table name is set the the current PoemSquare name given by the Mediator in the Folder Structure page. 
+Display.php containing the Display methods of all the media is included. 
 -->
 
 <?php
@@ -31,18 +37,29 @@ include "display.php";
 	<!-- Latest compiled JavaScript -->
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--
+
+	Scripting Files.
+	Radio.js - The Script file implements the feature of enabling link of the selected Radio button in each Tile. and disabling the remaining 3 links. 
+
+	Play.js- The Script file implements the playing of the modes.( Manual , SlideShow and sparkle. )
+	-->
 	<script src="js/Radio.js"></script>
-	<script src="js/PoemSquareName.js"></script>
-	<script src="js/UploadValidation.js"></script>
 	<script src="js/play.js"></script>
 	<title>PoemSquare Work Space</title>
 </head>
+
+<!-- 
+
+The Activity page has a 2 column div design. 
+The diablelink method disbles all the links for uploading media in all the Tiles. 
+-->
 <body onload="disableLink();">
 
 <!--Title-->  
 <h1 class="title">PoemSquare</h1>
 
-<!--Instructions-->
+<!--Instructions of the PoemSquare. -->
 
 <br/><p class="instructions">
 <b>Instructions:</b><br>  Select one of the three play modes: manual, slideshow, sparkle.  Select a tile, upload media files, and choose settings.  Add text, if you wish.  Preview.  Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click <sup>"</sup>FINISH.<sup>"</sup>  Play your creation from the PoemSquare Showcase.  For more detailed instructions, print out <sup>"</sup>PoemSquare Instructions <sup>"</sup> in <sup>"</sup>Resources.<sup>"</sup>
@@ -55,6 +72,7 @@ include "display.php";
 <!--Column 1 Poem -->
 <div  class="col-sm-5 col-md-5 col-lg-5">
 
+<!--Poem-->
 <p id="left" > 
 Black A, white E, red I, green U, blue O - vowels,<br>		
 Some day I will open your silent pregnancies:<br>
@@ -77,6 +95,21 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 </p>
 </div>
 
+<!--
+
+The Second column has the 9 tiles 3 tiles in a row.
+Every Tile has 4 upload icons, Play button and Delete button. 
+1. Text Upload Icon.
+2. Image Upload Icon. 
+3. Video Upload Icon.
+4. Audio Upload Icon. 
+
+All the Upload icons come up with a pop up on clicking.
+The Mediator can choose the respective multi media files as upload it in the Tile. 
+The Mediator can click on the play icon to preview the media uploaded. 
+On Deletion of the Tile All the uploaded content of the Files are deleted and are set to null in the Database. 
+
+-->
 <!-- Column 2-->
 <div class="col-sm-7 col-md-7 col-lg-7">
 <!--Main Container-->
@@ -84,6 +117,9 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <!--First Row-->
 <div class="row" align="center">
 
+<!--
+The enable Tile1 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 <!--Tile 1 -->
 <div id="Tile" class="col-sm-2">
 
@@ -91,6 +127,12 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 <div class="TileName">A</div>
 
 <!-- Input Text.-->
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile1" id="RadioTile1Text" onchange="enableTile1()" />
 <a href="#openTextUpload" id="TextIconTile1">
@@ -112,6 +154,14 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 	</form>
 	</div>
 
+	<!--
+
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
 	<?php 
 	if(isset($_POST['Add_text_Tile1'])){
 		$tile_no=1;
@@ -125,11 +175,12 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 		fwrite($TextFileTile1, $dataEntered);
 		fclose($TextFileTile1);
 		$textUploadTile1="UPDATE $tableName SET Text_File='Tile1Text.txt', Image=NULL, Video=NULL, Audio= NULL where Tile_ID=$tile_no";
-		$res=@mysqli_query($dbc, $textUploadTile1);
+		@mysqli_query($dbc, $textUploadTile1);
 
 	}
 
 	?> 
+
 	<!--Close Pop Up when clicked on Add Start-->
 	 <script>
  	 $( "#add_text" ).click(function() { $(location).attr('href', '#close');});
