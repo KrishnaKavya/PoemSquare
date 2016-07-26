@@ -1,34 +1,134 @@
+function rand(){
 
+var numArr = new Array("1","2","3","4","5","6","7","8","9");
+var pickArr = new Array(); 
+
+var length=9;
+
+for(var i=0;i<9;i++){
+        var num=numArr[Math.floor((Math.random()*length))];
+        pickArr[pickArr.length]=num
+        length--;
+        numArr.splice(findRank(numArr,num), 1);
+
+    }
+
+
+    return pickArr;
+}
+
+function findRank(seq,n){
+    var cnt=0;
+    var flag=true;
+    for(var i=0;i<seq.length&&flag;i++){
+        if(seq[i]==n)flag=false;
+        else cnt++;
+    }
+
+    return cnt;
+} 
+
+function sparkle(){
+  var randomsequence=rand();
+  play(randomsequence);
+
+}
+
+function   slideshow(){
+  var finalsequence=[];
+  var index=0;
+  var slide=document.getElementById('slideshowsequence').value;
+  var slidesequence=slide.toUpperCase();
+  if(slidesequence==null|| slidesequence.length==0 || slidesequence==undefined){
+   document.getElementById('slideShowAlert').innerHTML="cannot start the slideshow Please enter Tile indices as per instructions" ; 
+  }else 
+      if(slidesequence!=null|| slidesequence.length>0 ){
+        document.getElementById('slideShowAlert').innerHTML=" ";
+        var slideShowArray=slidesequence.split(",");
+           if( (slideShowArray.length==9) && (slideShowArray.indexOf('A')!=-1) && (slideShowArray.indexOf('B')!=-1) && (slideShowArray.indexOf("C")!=-1) && (slideShowArray.indexOf("L")!=-1) && (slideShowArray.indexOf("M")!=-1) && (slideShowArray.indexOf("N")!=-1) && (slideShowArray.indexOf("X")!=-1) && (slideShowArray.indexOf('Y')!=-1) && (slideShowArray.indexOf('Z')!=-1)){
+              var i=0;
+              for(i=0;i<10;i++){
+                var next= slideShowArray[i];
+                if(next =="A"){
+                  finalsequence[index]=1;
+                  index++;
+                }else if(next =="B"){
+                  finalsequence[index]=2;
+                  index++;
+                }else if(next =="C"){
+                  finalsequence[index]=3;
+                  index++;
+                }else if(next =="L"){
+                  finalsequence[index]=4;
+                  index++;
+                }else if(next =="M"){
+                  finalsequence[index]=5;
+                  index++;
+                }else if(next =="N"){
+                  finalsequence[index]=6;
+                  index++;
+                }else if(next =="X"){
+                  finalsequence[index]=7;
+                  index++;
+                }else if(next =="Y"){
+                  finalsequence[index]=8;
+                  index++;
+                }else if(next =="Z"){
+                  finalsequence[index]=9;
+                  index++;
+                }
+              }
+
+             play(finalsequence);
+          } else{
+            document.getElementById('slideShowAlert').innerHTML="Please Enter all the 9 Tile Indices.eg: A,B,C,L,M,N,X,Y,Z" ; 
+          }
+
+            // validation for the Tile names and indices 
+            // Split the variable with comas and then first check length and then contains. 
+            //It should contain all the indices( we need to check contains) and they should be equal to the length of 9 
+      } 
+}
 
 function play(seq){
+
+
+alert("click ok to start the Show");
 var tile='Tile'+seq[0]+'Type';
 var type=$('#Tile'+seq[0]+'Type').val();
- $("#PlayIConTile"+seq[0]+" img").click();
- if(type=="video" || type=="audio"){
-  var typeid=type+seq[0];
- 	var vid= document.getElementById(typeid);   
-   vid.onended = function() {
+if( type=="empty"){
+  one2nine(seq);
+}
 
-    $("#close"+seq[0]+" img").click();
-      setTimeout(function() 
-        {
-          one2nine(seq);
-        }, 1000);
-    
-};
- }
- else
- {
- 	setTimeout(function() 
-	{
-    $("#close"+seq[0]+" img").click();
-    setTimeout(function() 
-        {
-      		one2nine(seq);
-       	}, 1000);
- }, 1500);
+else{
+     $("#PlayIConTile"+seq[0]+" img").click();
+       if(type=="video" || type=="audio"){
+        var typeid=type+seq[0];
+       	var vid= document.getElementById(typeid);   
+         vid.onended = function() {
+
+          $("#close"+seq[0]+" img").click();
+            setTimeout(function() 
+              {
+                one2nine(seq);
+              }, 1000);
+          
+          };
+       }
+       else
+       {
+       	setTimeout(function() 
+      	{
+          $("#close"+seq[0]+" img").click();
+          setTimeout(function() 
+              {
+            		one2nine(seq);
+             	}, 1000);
+       }, 1500);
+      }
 }
 }
+
 
 //Tile2
 function one2nine(seq)
@@ -36,6 +136,10 @@ function one2nine(seq)
 
 tile='Tile'+seq[1]+'Type';
 var type=$('#Tile'+seq[1]+'Type').val();
+if(type=="empty"){
+   two2nine(seq);
+} 
+else{
  $("#PlayIConTile"+seq[1]+" img").click();
  if(type=="video" || type=="audio"){ 	
   var typeid=type+seq[1];
@@ -61,17 +165,23 @@ var type=$('#Tile'+seq[1]+'Type').val();
 		
  	}, 1000);
  }
+}
  }
+
 
 //Tile3
 function two2nine(seq)
 {
 tile="Tile"+seq[2]+"Type";
 var type=$('#Tile'+seq[2]+'Type').val();
+if(type=="empty"){
+    three2nine(seq);
+}
+else{
  $("#PlayIConTile"+seq[2]+" img").click();
  if(type=="video" || type=="audio"){
     var typeid=type+seq[2];
- 	var video = document.getElementById(typeid);   
+ 	  var video = document.getElementById(typeid);   
     video.onended = function(e) {
       $("#close"+seq[2]+" img").click();
             setTimeout(function() 
@@ -93,6 +203,7 @@ var type=$('#Tile'+seq[2]+'Type').val();
 	
  	}, 1000);
  } 
+}
 
 }
 
@@ -101,6 +212,10 @@ function three2nine(seq)
 {
 tile="Tile"+seq[3]+"Type";
 var type=$('#Tile'+seq[3]+'Type').val();
+if(type=="empty"){
+  four2nine(seq);
+}
+else{
  $("#PlayIConTile"+seq[3]+" img").click();
  if(type=="video" || type=="audio"){
        var typeid=type+seq[3];
@@ -126,7 +241,7 @@ var type=$('#Tile'+seq[3]+'Type').val();
 		
  	}, 1000);
  } 
-
+}
 }
 
 
@@ -135,6 +250,10 @@ function four2nine(seq)
 {
 tile="Tile"+seq[4]+"Type";
 var type=$('#Tile'+seq[4]+'Type').val();
+if(type=="empty"){
+   five2nine(seq);
+}
+else{
 $("#PlayIConTile"+seq[4]+" img").click();
  if(type=="video" || type=="audio"){
    var typeid=type+seq[4];
@@ -160,6 +279,7 @@ $("#PlayIConTile"+seq[4]+" img").click();
  	}, 1000);
  } 
 }
+}
 
 
 //Tile6
@@ -167,6 +287,10 @@ function five2nine(seq)
 {
 tile="Tile"+seq[5]+"Type";
 var type=$('#Tile'+seq[5]+'Type').val();
+if(type=="empty"){
+   six2nine(seq);
+}
+else{
  $("#PlayIConTile"+seq[5]+" img").click();
  if(type=="video" || type=="audio"){
    var typeid=type+seq[5];
@@ -194,13 +318,17 @@ var type=$('#Tile'+seq[5]+'Type').val();
  	}, 1000);
  } 
 }
+}
 
 //Tile7
 function six2nine(seq)
 {
 tile="Tile"+seq[6]+"Type";
 var type=$('#Tile'+seq[6]+'Type').val();
-
+if(type="empty"){
+  seven2nine(seq);
+}
+else{
  $("#PlayIConTile"+seq[6]+" img").click();
  if(type=="video" || type=="audio"){
    var typeid=type+seq[6];
@@ -227,12 +355,16 @@ var type=$('#Tile'+seq[6]+'Type').val();
  	}, 1000);
  } 
 }
+}
 
 //Tile8
 function seven2nine(seq)
 {
 tile="Tile"+seq[7]+"Type";
 var type=$('#Tile'+seq[7]+'Type').val();
+if(type=="empty"){
+  eight2nine(seq);
+}else{
  $("#PlayIConTile"+seq[7]+" img").click();
  if(type=="video" || type=="audio"){
   var typeid=type+seq[7];
@@ -259,18 +391,24 @@ var type=$('#Tile'+seq[7]+'Type').val();
  	}, 1000);
  } 
 }
+}
 
 //Tile9
 function eight2nine(seq)
 {
 tile="Tile"+seq[8]+"Type";
 var type=$('#Tile'+seq[8]+'Type').val();
+if(type=="empty"){
+  alert("End of the Show");
+}
+else{
  $("#PlayIConTile"+seq[8]+" img").click();
  if(type=="video" || type=="audio"){
   var typeid=type+seq[8];
   var video = document.getElementById(typeid);  
   video.onended = function(e) {
        $("#close"+seq[8]+" img").click();
+       alert("End of the Show");
   } 
  }
  else 
@@ -278,6 +416,8 @@ var type=$('#Tile'+seq[8]+'Type').val();
  	setTimeout(function() 
 	{
     $("#close"+seq[8]+" img").click();
+    alert("End of the show");
  	}, 1000);
  } 
+}
 }

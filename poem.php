@@ -336,6 +336,8 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$audioName;
 		displayAudio($path,$id,$close, $audioid);
+    }else{
+    	$type1="empty";
     }
     ?> <input type="hidden" name="type" value="<?=$type1 ?>" id="Tile1Type"/>
 <?php 
@@ -353,7 +355,7 @@ O&#46;&#46;&#46;Omega&#46;&#46;&#46;the violet light of His Eyes!<br>
 
 <!--Delete Button-->
 
-<form method="post" action="poem.php" style="display: inline-block;">
+<form method="post" style="display: inline-block;">
 <button type=submit" id="DeleteTile1" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata1">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon1" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap1" style="display:none;"/>
@@ -371,11 +373,8 @@ $( "#DeleteTile1" ).click(function() {
 
 <?php
 	if(isset($_POST['Deletedata1'])){
-	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
-	$result=mysqli_query($dbc, $query);
-	if($result){
-		echo "<script>alert('yeyyyyy');</script>";
-	}
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=1";
+	mysqli_query($dbc, $query);
 	}
 ?>
 <!--Delete End-->
@@ -634,6 +633,8 @@ $( "#DeleteTile1" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile2/".$audioName;
 		displayAudio($path,$id, $close, $audioid);
+    }else{
+    	$type2="empty";
     }
     ?> <input type="hidden" name="type" value="<?=$type2 ?>" id="Tile2Type"/>
 <?php 
@@ -647,10 +648,12 @@ $( "#DeleteTile1" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile2" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button  type="submit" id="DeleteTile2" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata2">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon2" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap2" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -659,6 +662,14 @@ $( "#DeleteTile2" ).click(function() {
   $( "#TextIconTile2, #ImageIconTile2, #PlayIConTile2, #AudioIconTile2, #VideoIconTile2, #Del-swap2, #DeleteIcon2,  #RadioTile2Text, #RadioTile2Image, #RadioTile2Video, #RadioTile2Audio").toggle();
 });
 </script>
+
+<?php
+	$tile_no=2;
+	if(isset($_POST['Deletedata2'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 2-->
@@ -921,6 +932,8 @@ $( "#DeleteTile2" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile3/".$audioName;
 		displayAudio($path,$id, $close, $audioid);
+    }else{
+    	$type3="empty";
     }
     ?> <input type="hidden" name="type" value="<?=$type3 ?>" id="Tile3Type"/>
 <?php 
@@ -934,10 +947,12 @@ $( "#DeleteTile2" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile3" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile3" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata3">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon3" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap3" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -946,6 +961,13 @@ $( "#DeleteTile3" ).click(function() {
   $( "#TextIconTile3, #ImageIconTile3, #PlayIConTile3, #AudioIconTile3, #VideoIconTile3, #Del-swap3, #DeleteIcon3,  #RadioTile3Text, #RadioTile3Image, #RadioTile3Video, #RadioTile3Audio").toggle();
 });
 </script>
+<?php
+	$tile_no=3;
+	if(isset($_POST['Deletedata3'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 3-->
@@ -1212,6 +1234,8 @@ $( "#DeleteTile3" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile4/".$audioName;
 		displayAudio($path,$id, $close, $audioid);
+    }else{
+    	$type4="empty";
     }
     ?> <input type="hidden" name="type" value="<?=$type4 ?>" id="Tile4Type"/>
 <?php 
@@ -1225,10 +1249,12 @@ $( "#DeleteTile3" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile4" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile4" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata4">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon4" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap4" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -1237,6 +1263,13 @@ $( "#DeleteTile4" ).click(function() {
   $( "#TextIconTile4, #ImageIconTile4, #PlayIConTile4, #AudioIconTile4, #VideoIconTile4, #Del-swap4, #DeleteIcon4,  #RadioTile4Text, #RadioTile4Image, #RadioTile4Video, #RadioTile4Audio").toggle();
 });
 </script>
+<?php
+	$tile_no=4;
+	if(isset($_POST['Deletedata4'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 4-->
@@ -1496,6 +1529,8 @@ $( "#DeleteTile4" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile5/".$audioName;
 		displayAudio($path,$id, $close, $audioid);
+    }else{
+    	$type5="empty";
     }
   	?> <input type="hidden" name="type" value="<?=$type5 ?>" id="Tile5Type"/>
 	<?php 
@@ -1509,10 +1544,12 @@ $( "#DeleteTile4" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile5" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile5" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata5">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon5" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap5" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -1521,6 +1558,14 @@ $( "#DeleteTile5" ).click(function() {
   $( "#TextIconTile5, #ImageIconTile5, #PlayIConTile5, #AudioIconTile5, #VideoIconTile5, #Del-swap5, #DeleteIcon5,  #RadioTile5Text, #RadioTile5Image, #RadioTile5Video, #RadioTile5Audio").toggle();
 });
 </script>
+
+<?php
+	$tile_no=5;
+	if(isset($_POST['Deletedata5'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 5-->
@@ -1779,6 +1824,8 @@ $( "#DeleteTile5" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile6/".$audioName;
 		displayAudio($path,$id, $close, $audioid);
+    }else{
+    	$type6="empty";
     }
 ?> <input type="hidden" name="type" value="<?=$type6 ?>" id="Tile6Type"/>
 <?php 
@@ -1792,10 +1839,12 @@ $( "#DeleteTile5" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile6" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile6" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata6">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon6" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap6" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -1804,6 +1853,14 @@ $( "#DeleteTile6" ).click(function() {
   $( "#TextIconTile6, #ImageIconTile6, #PlayIConTile6,#AudioIconTile6, #VideoIconTile6, #Del-swap6, #DeleteIcon6,  #RadioTile6Text, #RadioTile6Image, #RadioTile6Video, #RadioTile6Audio").toggle();
 });
 </script>
+
+<?php
+	$tile_no=6;
+	if(isset($_POST['Deletedata6'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 6-->
@@ -2066,6 +2123,8 @@ $( "#DeleteTile6" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile7/".$audioName;
 		displayAudio($path,$id, $close, $audioid);
+    }else{
+    	$type7="empty";
     }
 ?> <input type="hidden" name="type" value="<?=$type7 ?>" id="Tile7Type"/>
 <?php 
@@ -2079,10 +2138,12 @@ $( "#DeleteTile6" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile7" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile7" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata7">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon7" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap7" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -2091,6 +2152,14 @@ $( "#DeleteTile7" ).click(function() {
   $( "#TextIconTile7, #ImageIconTile7, #PlayIConTile7, #AudioIconTile7, #VideoIconTile7, #Del-swap7, #DeleteIcon7,  #RadioTile7Text, #RadioTile7Image, #RadioTile7Video, #RadioTile7Audio").toggle();
 });
 </script>
+
+<?php
+	$tile_no=7;
+	if(isset($_POST['Deletedata7'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 7-->
@@ -2352,8 +2421,10 @@ $( "#DeleteTile7" ).click(function() {
 		$path="ShowCase/17/trail4/Tile8/".$audioName;
 		displayAudio($path,$id,$close, $audioid);
 
+    }else{
+    	$type8="empty";
     }
-?> <input type="hidden" name="type" value="<?=$type ?>" id="Tile8Type"/>
+?> <input type="hidden" name="type" value="<?=$type8 ?>" id="Tile8Type"/>
 <?php 
 	
 }
@@ -2367,10 +2438,12 @@ $( "#DeleteTile7" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile8" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile8" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata8">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon8" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap8" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -2379,6 +2452,14 @@ $( "#DeleteTile8" ).click(function() {
   $( "#TextIconTile8, #ImageIconTile8, #PlayIConTile8,#AudioIconTile8, #VideoIconTile8, #Del-swap8, #DeleteIcon8, #RadioTile8Text, #RadioTile8Image, #RadioTile8Video, #RadioTile8Audio").toggle();
 });
 </script>
+
+<?php
+	$tile_no=8;
+	if(isset($_POST['Deletedata8'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 8-->
@@ -2637,7 +2718,9 @@ $( "#DeleteTile8" ).click(function() {
 		//Testing
 		$path="ShowCase/17/trail4/Tile9/".$audioName;
 		displayAudio($path,$id,$close, $audioid);
-  }
+  }else{
+    	$type9="empty";
+    }
 ?> <input type="hidden" name="type" value="<?=$type9 ?>" id="Tile9Type"/>
 <?php 
 	
@@ -2650,10 +2733,12 @@ $( "#DeleteTile8" ).click(function() {
 
 
 <!--Delete Button-->
-<button id="DeleteTile9" style="background-color:#ffffff; border:0px;padding:0px">
+<form method="post" style="display: inline-block;">
+<button id="DeleteTile9" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata9">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon9" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap9" style="display:none;"/>
 </button>
+</form>
 
 <!--Delete and reload tile Function JQuery-->
 
@@ -2662,6 +2747,13 @@ $( "#DeleteTile9" ).click(function() {
   $( "#TextIconTile9, #ImageIconTile9, #PlayIConTile9,#AudioIconTile9, #VideoIconTile9, #Del-swap9, #DeleteIcon9,  #RadioTile9Text, #RadioTile9Image, #RadioTile9Video, #RadioTile9Audio").toggle();
 });
 </script>
+<?php
+	$tile_no=9;
+	if(isset($_POST['Deletedata9'])){
+	$query="UPDATE $tableName SET Text_File=NULL, Image=NULL, Video=NULL, Audio=NULL where Tile_ID=$tile_no";
+	mysqli_query($dbc, $query);
+	}
+?>
 <!--Delete End-->
 
 <!--End of Tile 9-->
@@ -2676,12 +2768,14 @@ $( "#DeleteTile9" ).click(function() {
 </div>
 <br>
 <!--Modes-->
-<div align="center">
+<!-- Instructions-->
 
-<!--windowopen link should be changed while deploying-->
-<input type="button" value="Manual" class="modes" id="btnHome" onclick="play(['1','2','3','4','5','6','7','8','9'])" />
-<button class="modes" id="slideshow">Slideshow</button>
-<button class="modes">Sparkle</button>
+<input type="button" value="Manual" class="modes" id="btnHome" onclick="play(['1','2','3','4','5','6','7','8','9'])" /><br>
+<h6> Enter the Tile Sequence seperated by comas. You will have to enter the index of the deleted tiles also. <br> example: A,B,C,L,M,N,X,Y,Z </h6>
+<input type="text" name="slideshow" id="slideshowsequence" size="40" style="border:2px solid; border-radius:25px;">
+<label id="slideShowAlert" style="color:red"></label>
+<input type="button" value="Slideshow" class="modes" id="slideshow" onclick="slideshow()" /><br>
+<input type="button" value="sparkle" class="modes" id="sparkleButton" onclick="sparkle()" />
 </div>
 
 <!--End of Column 2-->
