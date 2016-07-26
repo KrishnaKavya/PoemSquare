@@ -1,0 +1,95 @@
+.icon{
+	height: 30px;
+	width: 30px;
+}
+.button{
+	height: 20px;
+	width: 20px;
+
+}
+h1{
+text-align: center;
+font-weight: bold;
+font-style: italic;
+font-size: 40pt;
+background-color: #d3d3d3;
+
+}
+P{
+	font-size:11pt;
+}
+.instructions{
+	text-align: left;
+}
+#Tile{
+	border: solid 3px;
+	height: 160px;
+	width: 200px;
+	align-items: center;
+	margin: 1px;
+	text-align: center;
+	align-content: center;
+}
+
+.modalDialog {
+	position: fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(1,1,1,1);
+	z-index: 99999;
+	opacity:0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
+}
+
+
+.modalDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.modalDialog > div {
+	width: 700px;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 25px;
+	background: #fff;
+	background: -moz-linear-gradient(#fff, #999);
+	background: -webkit-linear-gradient(#fff, #999);
+	background: -o-linear-gradient(#fff, #999);
+}
+
+body {
+font-family: 'Oswald', 'sans-serif';
+font-style: italic;
+}
+
+.TileName{
+	font-size: 13pt;
+	text-decoration: underline;
+	font-weight: bold;
+	font-style: italic;
+	font-family: 'Oswald', 'sans-serif'; 
+	text-align: left;
+}
+
+.reload{
+
+	height:40px;
+	width: 40px;
+	text-align: center;
+	align-content: center;
+}
+
+.modes{
+	padding-left:60px;
+	padding-right: 60px;
+	margin: 10px;
+
+}
