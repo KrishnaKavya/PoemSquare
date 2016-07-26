@@ -1,3 +1,9 @@
+<!--
+
+The poem.php has the Implemetation of the Poem Square activity. 
+
+-->
+
 <?php
 require_once('mysqli_connect.php'); 
 session_start();

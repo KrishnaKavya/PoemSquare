@@ -1,18 +1,19 @@
 <!--The user who enters the Home page logins with a unique User ID.
 	Session variable will have the details about the user which will be carry forwarded. 
 	For Inditial implementation and Testing  user id:17 user_login is used:Krishna 
+	Deploment Changes: user login, ID
 -->
 <?php
 session_start();
 $_SESSION['ID']=17;
 $_SESSION['user_login']="Krishna";
-echo $_SESSION['ID'];
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Poem Square</title>
+
+	<title>Home Page</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
@@ -22,37 +23,10 @@ echo $_SESSION['ID'];
 	<!-- Latest compiled JavaScript -->
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--CSS File-->
+	<link rel="stylesheet" type="text/css" href="style/HomePageStyle.css">
 </head>
-<style type="text/css">
-
-body {
-font-family: 'Oswald', 'sans-serif';
-text-align: left;
-font-size: 11pt;
-font-style: italic;
-}	
-
-h1{
-text-align: center;
-font-weight: bold;
-font-style: italic;
-font-size: 40pt;
-background-color: #d3d3d3;
-
-}
-
-p{
-font-size: 13pt;
-}
-
-#link{
-	font-size:20pt;
-	font-weight: bold;
-	text-align: center;
-	background-color: #d3d3d3;
-}
-</style>
-
+<!-- The Philosophical instructions of PoemSquare.-->
 <body>
 <h1>PoemSquare</h1>
 <hr>
@@ -93,7 +67,7 @@ To begin, reflect on your observations from the experiments and draw some conclu
     	Who will be your audience?  How will your knowledge of your audience affect your translation?
     	</li>
 </ul><br/>
-
+<!--Deployment Changes : Href should be changed.-->
 <a href="FolderStructure.php"><p id="link">Create a PoemSquare</p></a>
 </div>
 </body>

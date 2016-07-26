@@ -1,0 +1,26 @@
+
+#continueButton{
+	 background: url('../images/continueButton.png') no-repeat;
+	 height: 100px;
+	 width:330px;
+	 border: 0px;
+}
+
+html, body, .container-table {
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}
+#poemSquareName{
+	border-radius: 25px;
+	border: 2px solid;
+}
+
+label{
+	color: red;
+}

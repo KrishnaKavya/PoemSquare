@@ -18,6 +18,7 @@ DELETE : Delete existing rows (Remove privilege if not required)
 */
  
 // Defined as constants so that they can't be changed
+//Deployment Changes: DB_USER, DB_PASSWORD, DB_HOST, DB_NAME. 
 DEFINE ('DB_USER', 'root');
 DEFINE ('DB_PASSWORD', 'root');
 DEFINE ('DB_HOST', 'localhost');
