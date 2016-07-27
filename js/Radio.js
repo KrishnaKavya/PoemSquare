@@ -1,5 +1,10 @@
+
+
 var   Tile1Text, Tile1Image, Tile1Video, Tile1Audio, Tile2Text, Tile2Image, Tile2Video, Tile2Audio, Tile3Text, Tile3Image, Tile3Video, Tile3Audio, Tile4Text, Tile4Image, Tile4Video, Tile4Audio;
 
+/*
+The Disable Link saves all the hrefs of the Upload icons and removes the links.
+*/
 function disableLink() {
 
 Tile1Text = document.getElementById('TextIconTile1').href;
@@ -96,6 +101,10 @@ Tile9Audio=document.getElementById('AudioIconTile9').href;
  document.getElementById('AudioIconTile9').removeAttribute('href');
 }
 
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile1(){
 if(document.getElementById('RadioTile1Text').checked==true){
 	document.getElementById('TextIconTile1').setAttribute('href',Tile1Text);
@@ -122,6 +131,10 @@ if(document.getElementById('RadioTile1Audio').checked==true){
 }
 }
 
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 
 function enableTile2(){
 
@@ -151,6 +164,10 @@ if(document.getElementById('RadioTile2Audio').checked==true){
 
 }
 
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile3() {
 
 if(document.getElementById('RadioTile3Text').checked==true){
@@ -179,7 +196,10 @@ if(document.getElementById('RadioTile3Audio').checked==true){
 
 }
 
-
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile4() {
 
 if(document.getElementById('RadioTile4Text').checked==true){
@@ -208,7 +228,10 @@ if(document.getElementById('RadioTile4Audio').checked==true){
 
 }
 
-
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile5() {
 
 if(document.getElementById('RadioTile5Text').checked==true){
@@ -237,7 +260,10 @@ if(document.getElementById('RadioTile5Audio').checked==true){
 
 }
 
-
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile6() {
 
 if(document.getElementById('RadioTile6Text').checked==true){
@@ -265,7 +291,10 @@ if(document.getElementById('RadioTile6Audio').checked==true){
 }
 
 }
-
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile7() {
 
 if(document.getElementById('RadioTile7Text').checked==true){
@@ -293,7 +322,10 @@ if(document.getElementById('RadioTile7Audio').checked==true){
 }
 
 }
-
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile8() {
 
 if(document.getElementById('RadioTile8Text').checked==true){
@@ -321,7 +353,10 @@ if(document.getElementById('RadioTile8Audio').checked==true){
 }
 
 }
-
+/*
+The method checks which radio button is checked. 
+Enable the Checked radio button and disable all the other hrefs.
+*/
 function enableTile9() {
 
 if(document.getElementById('RadioTile9Text').checked==true){

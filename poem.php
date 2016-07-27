@@ -62,7 +62,7 @@ The diablelink method disbles all the links for uploading media in all the Tiles
 <!--Instructions of the PoemSquare. -->
 
 <br/><p class="instructions">
-<b>Instructions:</b><br>  Select one of the three play modes: manual, slideshow, sparkle.  Select a tile, upload media files, and choose settings.  Add text, if you wish.  Preview.  Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click <sup>"</sup>FINISH.<sup>"</sup>  Play your creation from the PoemSquare Showcase.  For more detailed instructions, print out <sup>"</sup>PoemSquare Instructions <sup>"</sup> in <sup>"</sup>Resources.<sup>"</sup>
+<b>Instructions:</b><br> Select a tile, upload  a media file. Preview. Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click <sup>"</sup>FINISH.<sup>"</sup>  Play your creation from the PoemSquare Showcase.  For more detailed instructions, print out <sup>"</sup>PoemSquare Instructions <sup>"</sup> in <sup>"</sup>Resources.<sup>"</sup>
 </p>
 <br>
 <!--Div  has poem on the first column and poem square on the second-->
@@ -192,7 +192,11 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 <!--Pop up for text upload End-->
 
 
+<!--
 
+The Image upload icon is present inside the anchor tag. 
+The Link is enabled when the Radio button of image upload is selected. 
+-->
 <!-- Upload Image-->
 <!--Image Upload Icon Start -->
 <input type="radio" name="RadioTile1" id="RadioTile1Image" onchange="enableTile1()"/>
@@ -200,6 +204,11 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 	<img src="images/imageupload.png" class="icon" title="Add Image">
 </a>
 <!--Image Upload Icon End -->
+
+<!--
+The input type upload is present inside a Form Tag. 
+Once the user selects the image file and clicks on the submit button. the isset of Imgage upload is enabled. 
+-->
 <!-- Pop up for Image Upload Start-->
 <div id="openImageUpload1" class="modalDialog">
 	<div>
@@ -220,6 +229,15 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
  	 <!--Close Pop Up when clicked on Add Start-->
  	 <?php
 
+ 	 /*
+ 	 The File uploaded is fetched at the server using the $_Files Associative Array. 
+	 The image is saved with a temporary name in the server. 
+	 The path Of the tile is stored in a variable. 
+	 Fetching the name, The uploaded file is moved the to the path defined, to its respective tile. 
+
+	 Once the moving of the files is completed, The Image name is updated in the table for the respective Tile. 
+
+ 	 */
  	 if(isset($_POST['Add_image_Tile1'])){
  	 	$tile_no=1; 
  	 	$name_file=$_FILES['image_tile1']['name'];
@@ -239,7 +257,12 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 <!--Image Upload end-->
 
 <br><br>
+<!--
 
+The Video upload image is inside an anchor tag which is directed to the pop up. 
+The Pop up has a a form to uplad a video. The add video button is clicked to add an video. 
+
+-->
 <!-- Upload Video -->
 <!--Video Upload Icon Start -->
 <input type="radio" name="RadioTile1" id="RadioTile1Video" onchange="enableTile1()"/>
@@ -267,8 +290,17 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
 	 <?php
+	 /*
+	  The isset is set to true on clicking the add video button. 
+	  The name of the video is uploaded in saved in the Files array.
 
- 	 if(isset($_POST['Add_video_Tile1'])){
+	  The path Of the tile is stored in a variable. 
+	  Fetching the name, The uploaded file is moved the to the path defined, to its respective tile. 
+
+	  Once the uploading of the Video is completed. The name of the video is updated in the database. 
+ 	 */
+
+	   if(isset($_POST['Add_video_Tile1'])){
  	 	$tile_no=1; 
  	 	$name_file=$_FILES['uploaded_video']['name'];
 		$tmp_name=$_FILES['uploaded_video']['tmp_name'];
@@ -288,7 +320,12 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 <!--Video Upload end-->
 
 
+<!--
 
+The Audio upload image is inside an anchor tag which is directed to the pop up. 
+The Pop up has a a form to uplad a audio. The add Audio button is clicked to add an Audio. 
+
+-->
 <!-- Upload Audio -->
 <!--Audio upload icon Start-->
 <input type="radio" name="RadioTile1" id="RadioTile1Audio" onchange="enableTile1()"/>
@@ -318,6 +355,16 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 
  	 <?php
 
+ 	  /*
+	  The isset is set to true on clicking the add Audio button. 
+	  The name of the Audio is uploaded in saved in the Files array.
+
+	  The path Of the tile is stored in a variable. 
+	  Fetching the name, The uploaded file is moved the to the path defined, to its respective tile. 
+
+	  Once the uploading of the Audio is completed. The name of the video is updated in the database. 
+ 	 */
+
  	 if(isset($_POST['Add_audio_Tile1'])){
  	 	$tile_no=1; 
  	 	$name_file=$_FILES['uploaded_file']['name'];
@@ -337,7 +384,16 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 <!--Pop up for Audio upload end-->
 <!--Audio Upload End-->
 
+<!--
 
+The Play image is positioned inside the anchor tag. A pop up comes up when we the mediator clicks on Play. 
+The Uploaded contents are displayed in the pop up. 
+An select query is executed to get the name of the Text or Audio or Video or image file name. 
+The query returns a row of values one of them will not be null. 
+The column which is not null has the uploaded files name. The uploaded file has a path in the tile. 
+The  respective display method is called to play the Tile.
+
+-->
 <!--Play button-->
 <a href="#playbutton" id="PlayIConTile1">
 	<img src="images/playbutton.png" class="button" title="Play">
@@ -363,12 +419,14 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
     $imageName=$row['Image'];
     $videoName=$row['Video'];
     $audioName=$row['Audio'];
+    // Path is the variable holding the path of the uploaded file in the Tile. 
      if($text!=null){
      	$type1="text";
     	//orginal syntax:
 		//$path=$_SESSION['TilePath']."1/Tile1Text.txt";
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$text;
+
     	displayText($path);
     }else if($imageName!=NULL){
     	$type1="image";
@@ -384,6 +442,7 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 		//$path=$_SESSION['TilePath']."1/".$videoName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$videoName;
+		// Video ID , Close , and ID are sent to the Display fucntionto play and pause the video. 
 		displayVideo($path,$id, $close, $videoid);
     } else if($audioName!=NULL){
     	$type1="audio";
@@ -392,10 +451,12 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 		//$path=$_SESSION['TilePath']."1/".$audioName;
 		//Testing
 		$path="ShowCase/17/trail4/Tile1/".$audioName;
+		// Audio ID , Close , and ID are sent to the Display fucntion to play and pause the audio.
 		displayAudio($path,$id,$close, $audioid);
     }else{
     	$type1="empty";
     }
+    // The Type variable stores the type of the File that is uploaded in the Tile and what type of file is played in the Tile. 
     ?> <input type="hidden" name="type" value="<?=$type1 ?>" id="Tile1Type"/>
 <?php 
 	
@@ -424,9 +485,11 @@ The text is put in the form tag. on clicking the Add Text which is the submit bu
 <!--Delete and reload tile Function JQuery-->
 <script>
 $( "#DeleteTile1" ).click(function() {
-  $( "#TextIconTile1, #ImageIconTile1, #PlayIConTile1, #AudioIconTile1, #VideoIconTile1, #Del-swap1, #DeleteIcon1, #RadioTile1Text, #RadioTile1Image, #RadioTile1Video, #RadioTile1Audio").toggle();
+	alert("called");
+   $( "#TextIconTile1, #ImageIconTile1, #PlayIConTile1, #AudioIconTile1, #VideoIconTile1, #Del-swap1, #DeleteIcon1, #RadioTile1Text, #RadioTile1Image, #RadioTile1Video, #RadioTile1Audio").toggle();
 });
 </script>
+
 
 <?php
 	if(isset($_POST['Deletedata1'])){
@@ -438,7 +501,9 @@ $( "#DeleteTile1" ).click(function() {
 <!--End of Tile 1-->
 </div>
 
-
+<!--
+The enableTile2 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 <!--Tile 2 start -->
 <div id="Tile" class="col-sm-2">
 
@@ -446,6 +511,12 @@ $( "#DeleteTile1" ).click(function() {
 <div class="TileName">B</div>
 
 <!-- Input Text.-->
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile2" id="RadioTile2Text"  onchange="enableTile2()"/>
 <a href="#openTextUpload2"  id="TextIconTile2">
@@ -472,8 +543,16 @@ $( "#DeleteTile1" ).click(function() {
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
 
+ 	 <!--
 
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
 	<?php 
+
 	if(isset($_POST['Add_text_Tile'])){
 
 		$tile_no=2;
@@ -732,6 +811,9 @@ $( "#DeleteTile2" ).click(function() {
 <!--End of Tile 2-->
 </div>
 
+<!--
+The enableTile3 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 
 <!-- Start of Tile 3  -->
 <div id="Tile" class="col-sm-2">
@@ -739,6 +821,13 @@ $( "#DeleteTile2" ).click(function() {
 <div class="TileName">C</div>
 
 <!-- Input Text.-->
+
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile3" id="RadioTile3Text" onchange="enableTile3()"/>
@@ -765,6 +854,15 @@ $( "#DeleteTile2" ).click(function() {
  	 $( "#add_text3" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+
+ 	 <!--
+
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
 	<?php 
 	if(isset($_POST['Add_text_Tile3'])){
 
@@ -1037,6 +1135,9 @@ $( "#DeleteTile3" ).click(function() {
 <!--Second row start -->
 <div class="row" align="center">
 
+<!--
+The enableTile4 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 <!-- Start of Tile 4  -->
 <div id="Tile" class="col-sm-2">
 
@@ -1044,6 +1145,12 @@ $( "#DeleteTile3" ).click(function() {
 <div class="TileName">L</div>
 
 <!-- Input Text.-->
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile4" id="RadioTile4Text" onchange="enableTile4()"/>
 <a href="#openTextUpload4" id="TextIconTile4">
@@ -1068,7 +1175,14 @@ $( "#DeleteTile3" ).click(function() {
  	 $( "#add_text4" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+ 	 <!--
 
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
  	 	<?php 
 	if(isset($_POST['Add_text_Tile4'])){
 
@@ -1332,6 +1446,9 @@ $( "#DeleteTile4" ).click(function() {
 <!--End of Tile 4-->
 </div>
 
+<!--
+The enable Tile5 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 <!-- Start of Tile 5  -->
 <div id="Tile"  class="col-sm-2">
 
@@ -1339,7 +1456,12 @@ $( "#DeleteTile4" ).click(function() {
 <div class="TileName">M</div>
 
 <!-- Input Text.-->
-
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile5" id="RadioTile5Text" onchange="enableTile5()"/>
 <a href="#openTextUpload5" id="TextIconTile5">
@@ -1365,6 +1487,14 @@ $( "#DeleteTile4" ).click(function() {
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
 
+ 	 	<!--
+
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
  	 <?php 
 	if(isset($_POST['Add_text_Tile5'])){
 
@@ -1628,7 +1758,9 @@ $( "#DeleteTile5" ).click(function() {
 <!--End of Tile 5-->
 </div>
 
-
+<!--
+The enable Tile6 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 <!-- Start of Tile 6  -->
 <div id="Tile" class="col-sm-2">
 
@@ -1636,7 +1768,12 @@ $( "#DeleteTile5" ).click(function() {
 <div class="TileName">N</div>
 
 <!-- Input Text.-->
-
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile6" id="RadioTile6Text" onchange="enableTile6()" />
 <a href="#openTextUpload6" id="TextIconTile6">
@@ -1661,7 +1798,14 @@ $( "#DeleteTile5" ).click(function() {
  	 $( "#add_text6" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+	<!--
 
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
  	 	<?php 
 	if(isset($_POST['Add_text_Tile6'])){
 
@@ -1930,6 +2074,9 @@ $( "#DeleteTile6" ).click(function() {
 
 <div class="row" align="center">
 
+<!--
+The enable Tile7 function enables the selected upload file and disables all the other upload links in the file. 
+-->
 <!-- Start of Tile 7  -->
 <div id="Tile"  class="col-sm-2">
 
@@ -1937,6 +2084,12 @@ $( "#DeleteTile6" ).click(function() {
 <div class="TileName">X</div>
 
 <!-- Input Text.-->
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile7" id="RadioTile7Text" onchange="enableTile7()"/>
 <a href="#openTextUpload7" id="TextIconTile7">
@@ -1961,7 +2114,14 @@ $( "#DeleteTile6" ).click(function() {
  	 $( "#add_text7" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+	<!--
 
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
  	 	<?php 
 	if(isset($_POST['Add_text_Tile7'])){
 
@@ -2229,7 +2389,12 @@ $( "#DeleteTile7" ).click(function() {
 <div class="TileName">Y</div>
 
 <!-- Input Text.-->
-
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile8" id="RadioTile8Text" onchange="enableTile8()"/>
 <a href="#openTextUpload8" id="TextIconTile8">
@@ -2254,6 +2419,14 @@ $( "#DeleteTile7" ).click(function() {
  	 $( "#add_text8" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+ 	 	<!--
+
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
  	 	<?php 
 	if(isset($_POST['Add_text_Tile8'])){
 
@@ -2530,6 +2703,12 @@ $( "#DeleteTile8" ).click(function() {
 <div class="TileName">Z</div>
 
 <!-- Input Text.-->
+<!--
+The anchor tag is created for the upload icon on the text upload. 
+ The link is enabled on selecting the Text Upload Radio button.
+The pop up for Text upload comes up.
+The text is put in the form tag. on clicking the Add Text which is the submit button, 
+-->
 
 <!--Text upload icon Start-->
 <input type="radio" name="RadioTile9" id="RadioTile9Text"  onchange="enableTile9()"/>
@@ -2555,6 +2734,14 @@ $( "#DeleteTile8" ).click(function() {
  	 $( "#add_text9" ).click(function() { $(location).attr('href', '#close');});
  	 </script>
  	 <!--Close Pop Up when clicked on Add Start-->
+ 	 	<!--
+
+	Once the submit button is clicked the isset is set to true. 
+	The Text entered is fetched in the back end. 
+	A text tile is created in the Tile Folder. The text is saved in the file and is closed. 
+	The name of the Text file is stores in the database in that respective tile.
+	
+	-->
  	 	<?php 
 	if(isset($_POST['Add_text_Tile9'])){
 

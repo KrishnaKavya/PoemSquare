@@ -1,3 +1,7 @@
+/*
+The rand function generates random numbers from the pool 1-9 
+*/
+
 function rand(){
 
 var numArr = new Array("1","2","3","4","5","6","7","8","9");
@@ -28,13 +32,22 @@ function findRank(seq,n){
     return cnt;
 } 
 
+/*
+The sparkle function generates random sequence and then calls a play function passing the sequence of the paramenter. 
+*/
 function sparkle(){
   var randomsequence=rand();
   play(randomsequence);
 
 }
+/*
+The Sequence given by the Mediator is validated. 
+The Text box cannot be null.An alert message is given when the user enters sequence without satisfying the rules. 
 
-function   slideshow(){
+The Alphabet sequence entered is validated. The numeric sequence is generated from the Alphabetic sequence. 
+Play function is called after forming a sequence. 
+*/
+function slideshow(){
   var finalsequence=[];
   var index=0;
   var slide=document.getElementById('slideshowsequence').value;
@@ -90,6 +103,13 @@ function   slideshow(){
       } 
 }
 
+
+/*
+The Play function displays the Media that is uploaded. 
+The Type of themedia is found out throm the Html tag. 
+If the media is Audio or video the next method is called when the audio or video stops playing.
+In the case of text or image the Play is initiated till 1 second and the next tile is called. 
+*/
 function play(seq){
 
 
