@@ -53,7 +53,7 @@ function slideshow(){
   var slide=document.getElementById('slideshowsequence').value;
   var slidesequence=slide.toUpperCase();
   if(slidesequence==null|| slidesequence.length==0 || slidesequence==undefined){
-   document.getElementById('slideShowAlert').innerHTML="cannot start the slideshow Please enter Tile indices as per instructions" ; 
+   document.getElementById('slideShowAlert').innerHTML="You must enter the play order first." ; 
   }else 
       if(slidesequence!=null|| slidesequence.length>0 ){
         document.getElementById('slideShowAlert').innerHTML=" ";
@@ -94,7 +94,7 @@ function slideshow(){
 
              play(finalsequence);
           } else{
-            document.getElementById('slideShowAlert').innerHTML="Please Enter all the 9 Tile Indices.eg: A,B,C,L,M,N,X,Y,Z" ; 
+            document.getElementById('slideShowAlert').innerHTML="You must list the letters for all nine tiles" ; 
           }
 
             // validation for the Tile names and indices 

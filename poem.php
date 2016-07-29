@@ -62,7 +62,7 @@ The diablelink method disbles all the links for uploading media in all the Tiles
 <!--Instructions of the PoemSquare. -->
 
 <br/><p class="instructions">
-<b>Instructions:</b><br> Select a tile, upload  a media file. Preview. Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click <sup>"</sup>FINISH.<sup>"</sup>  Play your creation from the PoemSquare Showcase.  For more detailed instructions, print out <sup>"</sup>PoemSquare Instructions <sup>"</sup> in <sup>"</sup>Resources.<sup>"</sup>
+<b>Instructions:</b><br> Select a tile; choose the type of media file you want to upload; add the media file; all media files must be 10 seconds or less; for image and text files only, indicate how long the tile will play; preview the tile by clicking on the right arrow in the tile.
 </p>
 <br>
 <!--Div  has poem on the first column and poem square on the second-->
@@ -473,19 +473,18 @@ The  respective display method is called to play the Tile.
 
 <!--Delete Button-->
 
-<form method="post" style="display: inline-block;">
+<!--<form method="post" style="display: inline-block;">-->
 <button type=submit" id="DeleteTile1" style="background-color:#ffffff; border:0px;padding:0px" name="Deletedata1">
 <img src="images/deletebutton.png" class="button"  title="Delete Tile" id="DeleteIcon1" style="display:block;">
 <img src="images/reloadbutton.png" class="reload" id="Del-swap1" style="display:none;"/>
 </button>
-</form>
+<!--</form>-->
 
 
 
 <!--Delete and reload tile Function JQuery-->
 <script>
 $( "#DeleteTile1" ).click(function() {
-	alert("called");
    $( "#TextIconTile1, #ImageIconTile1, #PlayIConTile1, #AudioIconTile1, #VideoIconTile1, #Del-swap1, #DeleteIcon1, #RadioTile1Text, #RadioTile1Image, #RadioTile1Video, #RadioTile1Audio").toggle();
 });
 </script>
@@ -3013,13 +3012,17 @@ $( "#DeleteTile9" ).click(function() {
 <br>
 <!--Modes-->
 <!-- Instructions-->
-
-<input type="button" value="Manual" class="modes" id="btnHome" onclick="play(['1','2','3','4','5','6','7','8','9'])" /><br>
-<h6> Enter the Tile Sequence seperated by comas. You will have to enter the index of the deleted tiles also. <br> example: A,B,C,L,M,N,X,Y,Z </h6>
-<input type="text" name="slideshow" id="slideshowsequence" size="40" style="border:2px solid; border-radius:25px;">
-<label id="slideShowAlert" style="color:red"></label>
+<div>
+<div >Click on the tabs below to preview your PoemSquare in each mode:</div><br>
+<input type="button" value="Manual" class="modes" id="btnHome"/>
+<div class="modeMessage">Use the preview arrows in the tiles to play each tile individually in any order you wish.</div>
+<br>
 <input type="button" value="Slideshow" class="modes" id="slideshow" onclick="slideshow()" /><br>
+<div class="modeMessage">List the nine tile letters in play order; separate letters by commas.</div>
+<input type="text" name="slideshow" id="slideshowsequence" size="30" style="border:2px solid; border-radius:25px;"><br>
+<label id="slideShowAlert" style="color:red "></label><br>
 <input type="button" value="sparkle" class="modes" id="sparkleButton" onclick="sparkle()" />
+<div class="modeMessage" >The computer randomly selects the play order.</h6>
 </div>
 
 <!--End of Column 2-->
