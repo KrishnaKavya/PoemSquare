@@ -2,54 +2,21 @@
 
 PoemSquare is an activity developed as part of research experiment on the poem vowels written by Arthur Rimbaud(1854-1891).
 
-Idea of the prooject: The main idea of the project is provide a interactive interface for the students to translate the poem to a PoemSquare. A PoemSquare is a multi-media experience where the user compose from media files. The PoemSquare synthesizes representations of the poem’s sounds, images, words, and movement in a different art form. 
+Idea of the prooject: The main idea of the project is provide a interactive interface for the students to translate the poem to a PoemSquare. A PoemSquare is a multi-media experience where the mediator compose from media files. The PoemSquare synthesizes representations of the poem’s sounds, images, words, and movement in a different art form. 
 
 
 #Description of the Activity:
 
-Home Page: The first screen of the activity a user sees will be the home page having the philosophical instruction for the user. These instructions gives ideas and motivation to the user. 
+Home Page: The first screen of the activity a Mediator sees will be the home page having the philosophical instruction for the mediator. 	 These instructions gives ideas and motivation to the mediator. 
 
-Folder Structure Page: The Second screen of the activity requests the user to give a name to the PoemSquare that he will be devloping. 
+Folder Structure Page: The Second screen of the activity requests the mediator to give a name to the PoemSquare that he will be    	devloping. 
 
-Activity Page: The Third screen is the last screen where the user creates the PoemSquare. 
+Activity Page: The Third screen is the last screen where the mediator creates the PoemSquare. 
 
-Create a PoemSquare
-
-[This will be the work page, a child page off of “Multimedia”; title this page PoemSquare]
-Instructions:  Select one of the four play modes: manual, slideshow, database, simulcast.  Select a tile, upload media files, and choose settings.  Add text, if you wish.  Preview.  Repeat the process for each tile you want to play in your PoemSquare.  Delete any tiles you will not use.  Click “FINISH.”  Play your creation from the PoemSquare Library.  For more detailed instructions, print out “PoemSquare Instructions” in “Resources.”
-								
-
-	A	B	C
-Black A, white E, red I, green U, blue O - vowels,		
-Some day I will open your silent pregnancies:
-A, black belt, hairy with burst flies,
-Bumbling and buzzing over stinking cruelties,
-
-Pits of night; E, candour of sand pavilions,
-High glacial spears, white kings, trembling Queen Anne's lace;
-I, bloody spittle, laughter dribbling from a face
-In wild denial or in anger, vermilions;				      
-      L				    M				     N
-U,…divine movement of viridian seas,
-Peace of pastures animal-strewn, peace of calm lines
-Drawn on foreheads worn with heavy alchemies;
-
-O, supreme Trumpet, harsh with strange stridencies,
-Silences traced in angels and astral designs:
-O…Omega…the violet light of His Eyes!
-
-
-	X	Y	Z
-
-
-
-
-
-
-
-
-[This information will be in a handout that can be accessed under “Resources.”  I will create this document and have Rob upload it after you and I have finalized procedures.]
-PoemSquare Instructions
+	The Activity page is split into two partitions. The left partition consists of the poem and the Right partition consists of the activity space.
+	
+	The PoemSquare is a 3 X 3 grid square. Every Square has acts like a block. 
+ 
 
 Play modes
 You may choose the play mode for each PoemSquare you create.  You might want to create a PoemSquare in several different play modes using the same interpretive perspective and media files.  Or you might want to approach each PoemSquare from a different interpretive perspective using a whole new set of images and sounds.  
@@ -102,5 +69,9 @@ Delete any tiles you will not use.  Click in the reload button to restore the ti
 
 Save to the PoemSquare Showcase
 When you have finished your PoemSquare, click “FINISH.”  “FINISH” saves your creation to the PoemSquare Showcase where you and others may view it at any time.  Once your PoemSquare is in the showcase, you can no longer edit it.
+
+#Terminology
+
+1. Mediator: student/user. 
 
 
