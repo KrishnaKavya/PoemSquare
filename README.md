@@ -1,20 +1,17 @@
 #PoemSquare
 
+PoemSquare is an activity developed as part of research experiment on the poem vowels written by Arthur Rimbaud(1854-1891).
+
+Idea of the prooject: The main idea of the project is provide a interactive interface for the students to translate the poem to a PoemSquare. A PoemSquare is a multi-media experience where the user compose from media files. The PoemSquare synthesizes representations of the poem’s sounds, images, words, and movement in a different art form. 
 
 
-Translate the poem into a PoemSquare.  A PoemSquare is a multi-media experience you will compose from media files that you or others have created or found and have stored in the Remaking Poetry database.  The PoemSquare synthesizes representations of the poem’s sounds, images, words, and movement in a different art form.  
-To begin, reflect on your observations from the experiments and draw some conclusions about what and how the poem means for you.  As you are designing your PoemSquare translation, here are some things to think about:
-•	What interests, skills, or experiences of yours might bring an interesting interpretive perspective to your translation?  For example, can you dance the poem or particular lines in it, paint it, mime it, play it on a musical instrument?  How would you convert those innovative expressions of the poem into a digital format?  What electronic devices might you use to do that?  Or what media files that you have located might you use in your translation?
+#Description of the Activity:
 
-•	What phases or movements does the original poem seem to go through?  How will your translation reflect those phases, if at all?
+Home Page: The first screen of the activity a user sees will be the home page having the philosophical instruction for the user. These instructions gives ideas and motivation to the user. 
 
-•	What associations do the poem’s images have?  Will the stills and/or videos you choose for your translation depict the verbal images literally?  Figuratively?  Impressionistically?  Or will you use different styles in combination?  How will your selection and treatment of graphic elements reflect the essence of the poem? 
+Folder Structure Page: The Second screen of the activity requests the user to give a name to the PoemSquare that he will be devloping. 
 
-•	What words or concepts change over the course of the original poem?  How will you account for those changes in your translation?  If you were only going to incorporate a few words from the original text into your translation, what words would you choose? How would you use font, size, and color so that the visual appearance of the words helps to communicate your perception of the poem?  Or will you use your own words?  Or will you use no words at all?
-
-•	What impact do specific sound features have on the poem?  How does sound contribute to your understanding of the poem?  How will your observations on sound affect your choice of music or other sounds?  Will the sounds you choose highlight your images by matching them or conflicting with them?  Will you use sounds to emphasize the transitions in the poem?  
-
-•	Who will be your audience?  How will your knowledge of your audience affect your translation?
+Activity Page: The Third screen is the last screen where the user creates the PoemSquare. 
 
 Create a PoemSquare
 
