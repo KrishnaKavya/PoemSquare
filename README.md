@@ -1,4 +1,6 @@
-PoemSquare
+#PoemSquare
+
+
 
 Translate the poem into a PoemSquare.  A PoemSquare is a multi-media experience you will compose from media files that you or others have created or found and have stored in the Remaking Poetry database.  The PoemSquare synthesizes representations of the poem’s sounds, images, words, and movement in a different art form.  
 To begin, reflect on your observations from the experiments and draw some conclusions about what and how the poem means for you.  As you are designing your PoemSquare translation, here are some things to think about:
