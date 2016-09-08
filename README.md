@@ -33,4 +33,9 @@ SPARKLE:  Players click on Sparkle on the to play all tiles in Random sequence. 
 
 1. Mediator: student/user. 
 
+#References
+
+http://www.doctorhugo.org/synaesthesia/rimbaud.html
+
+
 
